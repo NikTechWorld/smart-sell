@@ -25,21 +25,39 @@ import { pSBC } from './helper'
 export default function CustomizationForm({ id }) {
   // ** Hook
   const theme = useTheme()
+
   const [state, setState] = useState({
     customerName: '',
     greetings: 'Dear, ',
     formats: [],
     fontSize: 18,
-    shape: ''
+    shape: '',
+    image: { height: '0px', width: '0px' }
   })
+  useEffect(() => {
+    const myImage = new Image()
+    myImage.src = `http://localhost:3000/images/posters/${id}.jpg`
+    myImage.onload = img => {
+      if (img) {
+        let width = img?.target?.width
+        let height = img?.target?.height
+        console.log(height, width)
+        setState({ image: { height, width } })
+      }
+    }
+  }, [])
+
   const [color, setColor] = useState('')
+
   const onChangeHandler = event => {
     if (event.target.name !== undefined) setState({ ...state, [event.target.name]: event.target.value })
   }
+
   const onColorChangeHandler = event => {
     setColor(event.target.getAttribute('value'))
     setAnchorEl(null)
   }
+
   const handleFormat = (event, newFormats) => {
     setState({ ...state, formats: newFormats })
   }
@@ -50,6 +68,7 @@ export default function CustomizationForm({ id }) {
   }
 
   const open = Boolean(anchorEl)
+
   const DivStyled = styled('div')(({ theme }) => ({
     padding: '10px',
     fontWeight: state.formats.includes('bold') ? 'bold' : 'none',
@@ -58,29 +77,37 @@ export default function CustomizationForm({ id }) {
     fontSize: state.fontSize + 'px',
     whiteSpace: 'pre-line',
     textAlign: 'start'
+
     // Square
   }))
+
   return (
-    <Grid container spacing={2} direction={useMediaQuery(theme.breakpoints.down('sm')) ? 'column-reverse' : ''}>
-      <Grid item xs={8} textAlign={'center'} alignItems={'center'}>
-        <div class='container'>
+    <Grid
+      container
+      spacing={2}
+      direction={useMediaQuery(theme.breakpoints.down('sm')) ? 'column-reverse' : ''}
+      style={{ height: 'inherit' }}
+    >
+      <Grid item xs={8} textAlign={'center'} alignItems={'center'} style={{ height: 'inherit' }}>
+        <div>s</div>
+        {/* <div className='container' style={{ height: 'inherit' }}>
+          <div></div>
           <img
             src={`/images/posters/${id}.jpg`}
             alt='Snow'
             style={{
-              // height: 'calc(100vh - 115px)',
-              maxWidth: '100%'
-              // padding: '10px'
+              maxWidth: '100%',
+              height: 'inherit'
             }}
           />
-          {/* <div class='bottom-left'>Bottom Left</div> */}
+          <div className='bottom-left'>Bottom Left</div>
           <DivStyled className={`top-left parallelogram-one-side ${state.shape}`}>
             {state.greetings + ' ' + state.customerName}
           </DivStyled>
-          {/* <div class='top-right'>Top Right</div> */}
+          <div className='top-right'>Top Right</div>
           <DivStyled className={'bottom-right'}>XYZ Seller (Agent)</DivStyled>
-          {/* <div class='centered'>Centered</div> */}
-        </div>
+          <div className='centered'>Centered</div>
+        </div> */}
       </Grid>
       <Grid item xs={4}>
         <Grid>
@@ -145,6 +172,7 @@ export default function CustomizationForm({ id }) {
                                 '#efefef'
                               ].map((color, index) => (
                                 <div
+                                  key={index}
                                   id={color + index}
                                   style={{
                                     margin: '5px',

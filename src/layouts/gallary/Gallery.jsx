@@ -9,6 +9,7 @@ import Heart from 'mdi-material-ui/Heart'
 export default function Gallery({ imageList, onClickCallBack }) {
   const theme = useTheme()
   const matchDownMd = useMediaQuery(theme.breakpoints.down('sm'))
+
   return (
     <ImageList cols={matchDownMd ? 1 : 5} gap={10}>
       {imageList.map(item => (
@@ -27,7 +28,6 @@ export default function Gallery({ imageList, onClickCallBack }) {
             sx={{
               background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' + 'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
             }}
-            // title={item.title}
             position='top'
             actionIcon={
               <IconButton sx={{ color: 'white' }} aria-label={`star ${item.title}`}>

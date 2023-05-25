@@ -106,7 +106,7 @@ const VerticalNavHeader = props => {
                 </g>
               </g>
             </svg> */}
-            <img src='https://d28c6jni2fmamz.cloudfront.net/star_health_logo_big_77cff254bd.svg' height={'33px'} />
+            <img src='https://web.starhealth.in/sites/default/files/favicon.png' alt="logo" height={'33px'} />
             <HeaderTitle variant='h6' sx={{ ml: 3 }}>
               {themeConfig.templateName}
             </HeaderTitle>

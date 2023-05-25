@@ -42,11 +42,13 @@ const Dashboard = () => {
   const router = useRouter()
   useEffect(() => {
     saveSettings({ ...settings, hidden: true })
-    return () => {
+
+return () => {
       saveSettings({ ...settings, hidden: false })
     }
-  }, [])
-  return (
+  },)
+
+return (
     <ApexChartWrapper className='dashboard'>
       <Grid container spacing={6}>
         <Grid item xs={12} md={4}>
