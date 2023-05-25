@@ -1,0 +1,85 @@
+html,
+body {
+  min-height: 100%;
+}
+
+#__next {
+  height: 100%;
+}
+
+code {
+  font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+  padding: 0.1rem 0.4rem;
+  font-size: 90%;
+  color: #d400ff;
+  border-radius: 0.1335rem;
+}
+code:not([class*='language-']):before,
+code:not([class*='language-']):after {
+  content: '`';
+}
+code[class*='language-'] {
+  padding: 0;
+}
+.shap1 {
+  background: gray;
+  width: 44px;
+  height: 18px;
+  clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
+  cursor: move; /* fallback if grab cursor is unsupported */
+  /* cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab; */
+}
+.container {
+  position: relative;
+  text-align: center;
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+
+.top-left {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.select-icon-tab::before {
+  border: none !important;
+}
+/* .color-picker .container .MuiPopover-paper {
+  display: grid;
+} */
+.parallelogram-one-side {
+  background: #fff;
+}
+.parallelogram-one-side::after {
+  background: #fff;
+  /* border-bottom: 5px solid #da3629; */
+  content: '';
+  height: 47px;
+  position: absolute;
+  right: -13px;
+  top: 0;
+  -webkit-transform: skew(-20deg);
+  -moz-transform: skew(-20deg);
+  transform: skew(-20deg);
+  width: 23px;
+}
