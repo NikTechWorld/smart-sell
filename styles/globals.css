@@ -72,9 +72,8 @@ code[class*='language-'] {
 }
 .parallelogram-one-side::after {
   background: #fff;
-  /* border-bottom: 5px solid #da3629; */
   content: '';
-  height: 47px;
+  bottom: 0%;
   position: absolute;
   right: -13px;
   top: 0;
@@ -82,4 +81,16 @@ code[class*='language-'] {
   -moz-transform: skew(-20deg);
   transform: skew(-20deg);
   width: 23px;
+}
+.square {
+  background: #fff;
+}
+.circle {
+  background: #fff;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle div {
+  height: 0;
+  padding-bottom: 100%;
 }

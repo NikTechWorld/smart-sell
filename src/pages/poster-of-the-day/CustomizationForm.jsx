@@ -74,7 +74,7 @@ export default function CustomizationForm({ id }) {
             }}
           />
           {/* <div class='bottom-left'>Bottom Left</div> */}
-          <DivStyled className={`top-left ${state.shape} parallelogram-one-side`}>
+          <DivStyled className={`top-left parallelogram-one-side ${state.shape}`}>
             {state.greetings + ' ' + state.customerName}
           </DivStyled>
           {/* <div class='top-right'>Top Right</div> */}

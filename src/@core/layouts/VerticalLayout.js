@@ -74,6 +74,7 @@ const VerticalLayout = props => {
 
           <ContentWrapper
             className='layout-page-content'
+            style={{ height: 'calc(100vh - 120px)', overflowY: 'scroll' }}
             sx={{
               ...(contentWidth === 'boxed' && {
                 mx: 'auto',
