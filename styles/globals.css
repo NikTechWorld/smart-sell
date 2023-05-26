@@ -35,6 +35,8 @@ code[class*='language-'] {
 .container {
   position: relative;
   text-align: center;
+  height: inherit;
+  display: inline-flex;
 }
 
 .bottom-left {

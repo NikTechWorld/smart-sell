@@ -6,14 +6,14 @@ import { useTheme } from '@emotion/react'
 import HeartOutline from 'mdi-material-ui/HeartOutline'
 import Heart from 'mdi-material-ui/Heart'
 
-export default function Gallery({ imageList, onClickCallBack }) {
+export default function Gallery({ imageList, onClickCallBack, setIsFavorite }) {
   const theme = useTheme()
   const matchDownMd = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
     <ImageList cols={matchDownMd ? 1 : 5} gap={10}>
-      {imageList.map(item => (
-        <ImageListItem key={item?.img} cols={item?.cols || 1}>
+      {imageList.map((item, index) => (
+        <ImageListItem key={item?.img + index} cols={item?.cols || 1}>
           <img
             src={item?.img}
             alt={item?.title}
@@ -30,7 +30,14 @@ export default function Gallery({ imageList, onClickCallBack }) {
             }}
             position='top'
             actionIcon={
-              <IconButton sx={{ color: 'white' }} aria-label={`star ${item.title}`}>
+              <IconButton
+                sx={{ color: 'white' }}
+                aria-label={`star ${item.title}`}
+                onClick={e => {
+                  e.preventDefault()
+                  setIsFavorite(item.id, item.isFavorite)
+                }}
+              >
                 {item.isFavorite ? <Heart color={'error'} /> : <HeartOutline />}
               </IconButton>
             }

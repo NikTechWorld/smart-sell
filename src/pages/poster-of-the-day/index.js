@@ -5,11 +5,29 @@ import Typography from '@mui/material/Typography'
 // ** Demo Components Imports
 import Gallery from 'src/layouts/gallary/Gallery'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 const CardBasic = () => {
+  const [state, setState] = useState([])
   const router = useRouter()
   const handleClick = (e, item) => {
     router.push(`/poster-of-the-day/${item.title}`)
+  }
+  useEffect(() => {
+    let array = []
+    for (let i = 1; i < 10; i++) {
+      array.push({
+        id: i,
+        img: `/images/posters/${i}.jpg`,
+        title: i,
+        isFavorite: false
+      })
+    }
+    setState(array)
+  }, [])
+  const setIsFavorite = (id, value) => {
+    let updatedState = state.map(obj => (obj.id === id ? { ...obj, isFavorite: !value } : obj))
+    setState(updatedState)
   }
   return (
     <Grid container spacing={6}>
@@ -17,36 +35,7 @@ const CardBasic = () => {
         <Typography variant='h5'>Poster of The Day</Typography>
       </Grid>
       <Grid item xs={2} sx={{ paddingBottom: 4 }}></Grid>
-      <Gallery
-        imageList={[
-          {
-            img: '/images/posters/1.jpg',
-            title: '1'
-          },
-          {
-            img: '/images/posters/2.jpg',
-            title: '2'
-          },
-          {
-            img: '/images/posters/3.jpg',
-            title: '3'
-          },
-          {
-            img: '/images/posters/1.jpg',
-            title: '4',
-            isFavorite: true
-          },
-          {
-            img: '/images/posters/2.jpg',
-            title: '5'
-          },
-          {
-            img: '/images/posters/3.jpg',
-            title: '6'
-          }
-        ]}
-        onClickCallBack={handleClick}
-      />
+      <Gallery imageList={state} onClickCallBack={handleClick} setIsFavorite={setIsFavorite} />
     </Grid>
   )
 }

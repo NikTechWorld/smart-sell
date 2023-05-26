@@ -1,5 +1,6 @@
 // ** React Imports
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import * as htmlToImage from 'html-to-image'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -10,42 +11,46 @@ import CardContent from '@mui/material/CardContent'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import Box from '@mui/material/Box'
+
 import { styled, useTheme } from '@mui/material/styles'
 
 // ** Icons Imports
 import FormatBoldIcon from 'mdi-material-ui/FormatBold'
 import FormatItalicIcon from 'mdi-material-ui/FormatItalic'
-import { FormatColorText } from 'mdi-material-ui'
-import { FormControl, InputLabel, MenuItem, Popover, Select, ThemeProvider, createTheme } from '@mui/material'
+import { FormatColorText, Download, PrinterEye, Heart, Typography, ShareVariant } from 'mdi-material-ui'
+import {
+  CardActionArea,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Popover,
+  Select,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+  ThemeProvider,
+  createTheme
+} from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 // ** helper Imports
-import { pSBC } from './helper'
+// import { pSBC } from './helper'
 
 export default function CustomizationForm({ id }) {
   // ** Hook
   const theme = useTheme()
-
+  const imageDivRef = useRef(null)
   const [state, setState] = useState({
     customerName: '',
     greetings: 'Dear, ',
     formats: [],
-    fontSize: 18,
-    shape: '',
-    image: { height: '0px', width: '0px' }
+    fontSize: 10,
+    shape: ''
   })
-  useEffect(() => {
-    const myImage = new Image()
-    myImage.src = `http://localhost:3000/images/posters/${id}.jpg`
-    myImage.onload = img => {
-      if (img) {
-        let width = img?.target?.width
-        let height = img?.target?.height
-        console.log(height, width)
-        setState({ image: { height, width } })
-      }
-    }
-  }, [])
+  const [object, setObject] = useState({})
+  const [objects, setObjects] = useState([])
 
   const [color, setColor] = useState('')
 
@@ -68,7 +73,6 @@ export default function CustomizationForm({ id }) {
   }
 
   const open = Boolean(anchorEl)
-
   const DivStyled = styled('div')(({ theme }) => ({
     padding: '10px',
     fontWeight: state.formats.includes('bold') ? 'bold' : 'none',
@@ -80,7 +84,57 @@ export default function CustomizationForm({ id }) {
 
     // Square
   }))
+  // const [speedDial, setSpeedDial] = useState(false)
+  // const speedDialHandleOpen = () => setSpeedDial(true)
+  // const speedDialHandleClose = () => setSpeedDial(false)
+  // const actions = [
+  //   { icon: <PrinterEye />, name: 'Preview ' },
+  //   { icon: <Download />, name: 'Download' }
+  // ]
 
+  const handleOnDragStart = event => {
+    // event.preventDefault()
+    event.stopPropagation()
+    const { clientX, clientY } = event
+    setObject({ clientX, clientY })
+    // Calculate the position of the click relative to the initial position of the element
+    // event.dataTransfer.setData('text/plain', JSON.stringify({ id: event.target.id, innerHtml: event.target.innerHTML }))
+  }
+  const handleDragEnter = event => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+  const handleDragLeave = event => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+  const handleDragOver = event => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+  const handleDrop = event => {
+    event.preventDefault()
+    event.stopPropagation()
+    // let array = []
+    // const data = event.dataTransfer.getData('text/plain').toString()
+    // const { clientX, clientY, target } = event
+    // console.log(data)
+    // // Calculate the position of the click relative to the top-left corner of the element
+    // if (state.control) array = state.control
+    // if (data.id === 'source')
+    //   array.push({
+    //     xPosition: clientX - dragStartState.left,
+    //     yPosition: clientY - dragStartState.top,
+    //     innerHtml: data.innerHtml
+    //   })
+    // else
+    //   array[data.id] = {
+    //     xPosition: clientX - dragStartState.left,
+    //     yPosition: clientY - dragStartState.top,
+    //     innerHtml: data.innerHtml
+    //   }
+    // setObjects([...objects, array])
+  }
   return (
     <Grid
       container
@@ -89,9 +143,68 @@ export default function CustomizationForm({ id }) {
       style={{ height: 'inherit' }}
     >
       <Grid item xs={8} textAlign={'center'} alignItems={'center'} style={{ height: 'inherit' }}>
-        <div>s</div>
-        {/* <div className='container' style={{ height: 'inherit' }}>
-          <div></div>
+        <Card>
+          <CardContent>
+            <div
+              className='container'
+              ref={imageDivRef}
+              onDrop={event => handleDrop(event)}
+              onDragOver={event => handleDragOver(event)}
+              onDragEnter={event => handleDragEnter(event)}
+              onDragLeave={event => handleDragLeave(event)}
+            >
+              <img
+                src={`/images/posters/${id}.jpg`}
+                alt='Snow'
+                style={{
+                  maxWidth: '100%',
+                  height: 'inherit'
+                }}
+              />
+              <DivStyled
+                className={`top-left parallelogram-one-side ${state.shape}`}
+                draggable={true}
+                onDragStart={handleOnDragStart}
+              >
+                {state.greetings + ' ' + state.customerName}
+              </DivStyled>
+            </div>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
+                <IconButton aria-label='like'>
+                  <Heart />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
+                <IconButton
+                  aria-label='download'
+                  onClick={async () => {
+                    const dataUrl = await htmlToImage.toPng(imageDivRef.current)
+                    const link = document.createElement('a')
+                    link.download = `${id}.png`
+                    link.href = dataUrl
+                    link.click()
+                  }}
+                >
+                  <Download />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <IconButton aria-label='share'>
+                  <ShareVariant />
+                </IconButton>
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
+        {/* <div
+          className='container'
+          ref={imageDivRef}
+          onDrop={event => handleDrop(event)}
+          onDragOver={event => handleDragOver(event)}
+          onDragEnter={event => handleDragEnter(event)}
+          onDragLeave={event => handleDragLeave(event)}
+        >
           <img
             src={`/images/posters/${id}.jpg`}
             alt='Snow'
@@ -100,21 +213,44 @@ export default function CustomizationForm({ id }) {
               height: 'inherit'
             }}
           />
-          <div className='bottom-left'>Bottom Left</div>
-          <DivStyled className={`top-left parallelogram-one-side ${state.shape}`}>
+          <DivStyled
+            className={`top-left parallelogram-one-side ${state.shape}`}
+            draggable={true}
+            onDragStart={handleOnDragStart}
+          >
             {state.greetings + ' ' + state.customerName}
           </DivStyled>
-          <div className='top-right'>Top Right</div>
-          <DivStyled className={'bottom-right'}>XYZ Seller (Agent)</DivStyled>
-          <div className='centered'>Centered</div>
-        </div> */}
+        </div>  */}
+        {/* <SpeedDial
+          ariaLabel='SpeedDial controlled open example'
+          sx={{ position: 'absolute', bottom: 16, right: 16 }}
+          icon={<SpeedDialIcon />}
+          onClose={speedDialHandleClose}
+          onOpen={speedDialHandleOpen}
+          open={speedDial}
+        >
+          {actions.map(action => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+              onClick={async () => {
+                const dataUrl = await htmlToImage.toPng(imageDivRef.current)
+                const link = document.createElement('a')
+                link.download = `${id}.png`
+                link.href = dataUrl
+                link.click()
+              }}
+            />
+          ))}
+        </SpeedDial> */}
       </Grid>
       <Grid item xs={4}>
         <Grid>
           <Card>
             <CardHeader title='Customize Poster' titleTypographyProps={{ variant: 'h6' }} />
             <CardContent>
-              <form onSubmit={e => e.preventDefault()}>
+              <form onSubmit={event => event.preventDefault()}>
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
                     <ButtonGroup variant='outlined' aria-label='outlined button group' style={{ width: 'inherit' }}>
@@ -141,7 +277,7 @@ export default function CustomizationForm({ id }) {
                             id={'id'}
                             open={open}
                             anchorEl={anchorEl}
-                            onClose={e => setAnchorEl(null)}
+                            onClose={event => setAnchorEl(null)}
                             anchorOrigin={{
                               vertical: 'bottom',
                               horizontal: 'left'
@@ -195,7 +331,7 @@ export default function CustomizationForm({ id }) {
                         type='number'
                         size='small'
                         label='font size'
-                        inputProps={{ min: 18 }}
+                        inputProps={{ min: 10 }}
                         defaultValue={state.fontSize}
                         value={state.fontSize}
                         onChange={onChangeHandler}
@@ -245,10 +381,7 @@ export default function CustomizationForm({ id }) {
           </Card>
         </Grid>
         <Grid>
-          <Card>
-            {/* <CardHeader title={<ShapePlusOutline />} titleTypographyProps={{ variant: 'h6' }} /> */}
-            {/* <Square /> */}
-          </Card>
+          <Card></Card>
         </Grid>
       </Grid>
     </Grid>
