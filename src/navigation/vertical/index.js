@@ -34,7 +34,7 @@ const navigation = () => {
       title: 'Plans list',
       icon: ListBoxOutline,
       path: '/plans-list'
-    },
+    }
     // {
     //   title: 'Account Settings',
     //   icon: AccountCogOutline,
@@ -74,11 +74,11 @@ const navigation = () => {
     //   path: '/icons',
     //   icon: GoogleCirclesExtended
     // }
-    {
-      title: 'Cards',
-      icon: CreditCardOutline,
-      path: '/cards'
-    }
+    // {
+    //   title: 'Cards',
+    //   icon: CreditCardOutline,
+    //   path: '/cards'
+    // }
     // {
     //   title: 'Tables',
     //   icon: Table,
