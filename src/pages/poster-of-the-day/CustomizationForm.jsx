@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from 'react'
 import * as htmlToImage from 'html-to-image'
 
+import Draggable from 'react-draggable'
+
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
@@ -18,12 +20,16 @@ import { styled, useTheme } from '@mui/material/styles'
 // ** Icons Imports
 import FormatBoldIcon from 'mdi-material-ui/FormatBold'
 import FormatItalicIcon from 'mdi-material-ui/FormatItalic'
-import { FormatColorText, Download, PrinterEye, Heart, Typography, ShareVariant } from 'mdi-material-ui'
+import { FormatColorText, Download, PrinterEye, Heart, RectangleOutline, ShareVariant } from 'mdi-material-ui'
 import {
   CardActionArea,
   FormControl,
   IconButton,
   InputLabel,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   MenuItem,
   Popover,
   Select,
@@ -42,6 +48,7 @@ export default function CustomizationForm({ id }) {
   // ** Hook
   const theme = useTheme()
   const imageDivRef = useRef(null)
+
   const [state, setState] = useState({
     customerName: '',
     greetings: 'Dear, ',
@@ -73,6 +80,7 @@ export default function CustomizationForm({ id }) {
   }
 
   const open = Boolean(anchorEl)
+
   const DivStyled = styled('div')(({ theme }) => ({
     padding: '10px',
     fontWeight: state.formats.includes('bold') ? 'bold' : 'none',
@@ -84,6 +92,7 @@ export default function CustomizationForm({ id }) {
 
     // Square
   }))
+
   // const [speedDial, setSpeedDial] = useState(false)
   // const speedDialHandleOpen = () => setSpeedDial(true)
   // const speedDialHandleClose = () => setSpeedDial(false)
@@ -97,24 +106,30 @@ export default function CustomizationForm({ id }) {
     event.stopPropagation()
     const { clientX, clientY } = event
     setObject({ clientX, clientY })
+
     // Calculate the position of the click relative to the initial position of the element
     // event.dataTransfer.setData('text/plain', JSON.stringify({ id: event.target.id, innerHtml: event.target.innerHTML }))
   }
+
   const handleDragEnter = event => {
     event.preventDefault()
     event.stopPropagation()
   }
+
   const handleDragLeave = event => {
     event.preventDefault()
     event.stopPropagation()
   }
+
   const handleDragOver = event => {
     event.preventDefault()
     event.stopPropagation()
   }
+
   const handleDrop = event => {
     event.preventDefault()
     event.stopPropagation()
+
     // let array = []
     // const data = event.dataTransfer.getData('text/plain').toString()
     // const { clientX, clientY, target } = event
@@ -135,6 +150,7 @@ export default function CustomizationForm({ id }) {
     //   }
     // setObjects([...objects, array])
   }
+
   return (
     <Grid
       container
@@ -161,13 +177,15 @@ export default function CustomizationForm({ id }) {
                   height: 'inherit'
                 }}
               />
-              <DivStyled
-                className={`top-left parallelogram-one-side ${state.shape}`}
-                draggable={true}
-                onDragStart={handleOnDragStart}
-              >
-                {state.greetings + ' ' + state.customerName}
-              </DivStyled>
+              <Draggable bounds='parent'>
+                <DivStyled
+                  className={`top-left parallelogram-one-side ${state.shape}`}
+                  draggable={true}
+                  onDragStart={handleOnDragStart}
+                >
+                  {state.greetings + ' ' + state.customerName}
+                </DivStyled>
+              </Draggable>
             </div>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
@@ -381,7 +399,33 @@ export default function CustomizationForm({ id }) {
           </Card>
         </Grid>
         <Grid>
-          <Card></Card>
+          <Card variant='outlined' style={{ marginBlock: '10px' }}>
+            <CardContent>
+              <List component='nav' aria-label='main mailbox folders'>
+                <ListItemButton selected={true} onClick={event => handleListItemClick(event, 0)}>
+                  <ListItemIcon>
+                    <RectangleOutline />
+                  </ListItemIcon>
+                  <ListItemText primary='Square' />
+                </ListItemButton>
+                <ListItemButton onClick={event => handleListItemClick(event, 1)}>
+                  <ListItemIcon>
+                    <svg
+                      style={{ transform: ` rotate(90deg)` }}
+                      fill='none'
+                      height='24'
+                      viewBox='0 0 24 24'
+                      width='24'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <ellipse cx='12' cy='12' rx='8' ry='10' stroke='black' strokeWidth='2' />
+                    </svg>
+                  </ListItemIcon>
+                  <ListItemText primary='Ellipse' />
+                </ListItemButton>
+              </List>
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
     </Grid>
