@@ -6,24 +6,17 @@ import Typography from '@mui/material/Typography'
 import Gallery from 'src/layouts/gallary/Gallery'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import imgList from './Images.json'
+
 
 const CardBasic = () => {
   const [state, setState] = useState([])
   const router = useRouter()
   const handleClick = (e, item) => {
-    router.push(`/poster-of-the-day/${item.title}`)
+    router.push(`/poster-of-the-day/${item.id}`)
   }
   useEffect(() => {
-    let array = []
-    for (let i = 1; i < 10; i++) {
-      array.push({
-        id: i,
-        img: `/images/posters/${i}.jpg`,
-        title: i,
-        isFavorite: false
-      })
-    }
-    setState(array)
+    setState(imgList)
   }, [])
   const setIsFavorite = (id, value) => {
     let updatedState = state.map(obj => (obj.id === id ? { ...obj, isFavorite: !value } : obj))
