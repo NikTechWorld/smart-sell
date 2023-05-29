@@ -38,7 +38,10 @@ code[class*='language-'] {
   height: inherit;
   display: inline-flex;
 }
-
+.label {
+  height: fit-content;
+  cursor: move;
+}
 .bottom-left {
   position: absolute;
   bottom: 0px;
@@ -84,8 +87,37 @@ code[class*='language-'] {
   transform: skew(-20deg);
   width: 23px;
 }
-.square {
+
+.parallelogram {
+  position: relative;
+  padding: 10px 20px;
+  position: relative;
+  background: white;
+}
+.parallelogram::after {
+  content: ' ';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: white;
+  -webkit-transform-origin: bottom left;
+  -moz-transform-origin: bottom left;
+  transform-origin: bottom left;
+  -webkit-transform: skew(-30deg, 0deg);
+  -moz-transform: skew(-30deg, 0deg);
+  transform: skew(-30deg, 0deg);
+}
+
+.Square {
   background: #fff;
+}
+.Ellipse {
+  background: #fff;
+  border-radius: 50%;
 }
 .circle {
   background: #fff;

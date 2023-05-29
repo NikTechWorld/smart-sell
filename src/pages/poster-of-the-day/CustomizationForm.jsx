@@ -20,7 +20,7 @@ import { styled, useTheme } from '@mui/material/styles'
 // ** Icons Imports
 import FormatBoldIcon from 'mdi-material-ui/FormatBold'
 import FormatItalicIcon from 'mdi-material-ui/FormatItalic'
-import { FormatColorText, Download, PrinterEye, Heart, RectangleOutline, ShareVariant } from 'mdi-material-ui'
+import { FormatColorText, Download, PrinterEye, Heart, RectangleOutline, ShareVariant, Inbox } from 'mdi-material-ui'
 import {
   CardActionArea,
   FormControl,
@@ -32,12 +32,7 @@ import {
   ListItemText,
   MenuItem,
   Popover,
-  Select,
-  SpeedDial,
-  SpeedDialAction,
-  SpeedDialIcon,
-  ThemeProvider,
-  createTheme
+  Select
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -50,21 +45,60 @@ export default function CustomizationForm({ id }) {
   const imageDivRef = useRef(null)
 
   const [state, setState] = useState({
-    customerName: '',
-    greetings: 'Dear, ',
     formats: [],
-    fontSize: 10,
-    shape: ''
+    labels: [
+      {
+        shape: `Square`,
+        position: 'top-left',
+        greetings: `Greetings,`,
+        label: `customerName`,
+        value: '',
+        formate: [
+          {
+            bold: false,
+            italic: false,
+            fontColor: `black`,
+            fontSize: `12px`
+          }
+        ]
+      },
+      {
+        shape: `Square`,
+        position: 'bottom-right',
+        greetings: `hidden`,
+        label: `customerName`,
+        value: 'Agent XYZ',
+        formate: [
+          {
+            bold: false,
+            italic: false,
+            fontColor: `black`,
+            fontSize: `12px`
+          }
+        ]
+      }
+    ]
   })
-  const [object, setObject] = useState({})
-  const [objects, setObjects] = useState([])
-
+  const [activeLabel, setActiveLabel] = useState(0)
   const [color, setColor] = useState('')
 
   const onChangeHandler = event => {
-    if (event.target.name !== undefined) setState({ ...state, [event.target.name]: event.target.value })
+    console.log(event)
+    if (event.target.name !== undefined) {
+      let labels = state.labels
+      let label = labels[activeLabel]
+      event.target.name === `greetings` ? (label.greetings = event.target.value) : (label.value = event.target.value)
+      labels[activeLabel] = label
+      setState({ ...state, labels })
+    }
   }
-
+  const handleListItemClick = event => {
+    let labels = state.labels
+    let label = labels[activeLabel]
+    label.shape = event.target.innerText
+    labels[activeLabel] = label
+    setState({ ...state, labels })
+  }
   const onColorChangeHandler = event => {
     setColor(event.target.getAttribute('value'))
     setAnchorEl(null)
@@ -92,65 +126,7 @@ export default function CustomizationForm({ id }) {
 
     // Square
   }))
-
-  // const [speedDial, setSpeedDial] = useState(false)
-  // const speedDialHandleOpen = () => setSpeedDial(true)
-  // const speedDialHandleClose = () => setSpeedDial(false)
-  // const actions = [
-  //   { icon: <PrinterEye />, name: 'Preview ' },
-  //   { icon: <Download />, name: 'Download' }
-  // ]
-
-  const handleOnDragStart = event => {
-    // event.preventDefault()
-    event.stopPropagation()
-    const { clientX, clientY } = event
-    setObject({ clientX, clientY })
-
-    // Calculate the position of the click relative to the initial position of the element
-    // event.dataTransfer.setData('text/plain', JSON.stringify({ id: event.target.id, innerHtml: event.target.innerHTML }))
-  }
-
-  const handleDragEnter = event => {
-    event.preventDefault()
-    event.stopPropagation()
-  }
-
-  const handleDragLeave = event => {
-    event.preventDefault()
-    event.stopPropagation()
-  }
-
-  const handleDragOver = event => {
-    event.preventDefault()
-    event.stopPropagation()
-  }
-
-  const handleDrop = event => {
-    event.preventDefault()
-    event.stopPropagation()
-
-    // let array = []
-    // const data = event.dataTransfer.getData('text/plain').toString()
-    // const { clientX, clientY, target } = event
-    // console.log(data)
-    // // Calculate the position of the click relative to the top-left corner of the element
-    // if (state.control) array = state.control
-    // if (data.id === 'source')
-    //   array.push({
-    //     xPosition: clientX - dragStartState.left,
-    //     yPosition: clientY - dragStartState.top,
-    //     innerHtml: data.innerHtml
-    //   })
-    // else
-    //   array[data.id] = {
-    //     xPosition: clientX - dragStartState.left,
-    //     yPosition: clientY - dragStartState.top,
-    //     innerHtml: data.innerHtml
-    //   }
-    // setObjects([...objects, array])
-  }
-
+  const label = state.labels[activeLabel]
   return (
     <Grid
       container
@@ -161,14 +137,7 @@ export default function CustomizationForm({ id }) {
       <Grid item xs={8} textAlign={'center'} alignItems={'center'} style={{ height: 'inherit' }}>
         <Card>
           <CardContent>
-            <div
-              className='container'
-              ref={imageDivRef}
-              onDrop={event => handleDrop(event)}
-              onDragOver={event => handleDragOver(event)}
-              onDragEnter={event => handleDragEnter(event)}
-              onDragLeave={event => handleDragLeave(event)}
-            >
+            <div className='container' ref={imageDivRef} onDrop={() => {}}>
               <img
                 src={`/images/posters/${id}.jpg`}
                 alt='Snow'
@@ -177,22 +146,19 @@ export default function CustomizationForm({ id }) {
                   height: 'inherit'
                 }}
               />
-              <Draggable bounds='parent'>
-                <DivStyled
-                  className={`top-left parallelogram-one-side ${state.shape}`}
-                  draggable={true}
-                  onDragStart={handleOnDragStart}
-                >
-                  {state.greetings + ' ' + state.customerName}
-                </DivStyled>
-              </Draggable>
+              {state.labels.map((label, index) => (
+                <Draggable bounds='parent' key={index}>
+                  <DivStyled
+                    className={`${label.position} ${label.shape} label`}
+                    onClick={e => setActiveLabel(index)}
+                    draggable={true}
+                  >
+                    {(label.greetings && label.greetings !== 'hidden' ? label.greetings : '') + ' ' + label.value}
+                  </DivStyled>
+                </Draggable>
+              ))}
             </div>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
-                <IconButton aria-label='like'>
-                  <Heart />
-                </IconButton>
-              </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
                 <IconButton
                   aria-label='download'
@@ -215,53 +181,6 @@ export default function CustomizationForm({ id }) {
             </Box>
           </CardContent>
         </Card>
-        {/* <div
-          className='container'
-          ref={imageDivRef}
-          onDrop={event => handleDrop(event)}
-          onDragOver={event => handleDragOver(event)}
-          onDragEnter={event => handleDragEnter(event)}
-          onDragLeave={event => handleDragLeave(event)}
-        >
-          <img
-            src={`/images/posters/${id}.jpg`}
-            alt='Snow'
-            style={{
-              maxWidth: '100%',
-              height: 'inherit'
-            }}
-          />
-          <DivStyled
-            className={`top-left parallelogram-one-side ${state.shape}`}
-            draggable={true}
-            onDragStart={handleOnDragStart}
-          >
-            {state.greetings + ' ' + state.customerName}
-          </DivStyled>
-        </div>  */}
-        {/* <SpeedDial
-          ariaLabel='SpeedDial controlled open example'
-          sx={{ position: 'absolute', bottom: 16, right: 16 }}
-          icon={<SpeedDialIcon />}
-          onClose={speedDialHandleClose}
-          onOpen={speedDialHandleOpen}
-          open={speedDial}
-        >
-          {actions.map(action => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-              onClick={async () => {
-                const dataUrl = await htmlToImage.toPng(imageDivRef.current)
-                const link = document.createElement('a')
-                link.download = `${id}.png`
-                link.href = dataUrl
-                link.click()
-              }}
-            />
-          ))}
-        </SpeedDial> */}
       </Grid>
       <Grid item xs={4}>
         <Grid>
@@ -362,21 +281,23 @@ export default function CustomizationForm({ id }) {
                       <Grid item xs={12}>
                         <FormControl fullWidth>
                           <InputLabel id='greetings'>Greetings</InputLabel>
-                          <Select
-                            labelId='greetings'
-                            id='greetings-id'
-                            value={state.greetings}
-                            label='Greetings'
-                            onChange={onChangeHandler}
-                            size='small'
-                            name='greetings'
-                            fullWidth
-                          >
-                            <MenuItem value='Dear, '>Dear, </MenuItem>
-                            <MenuItem value='Greetings, '>Greetings, </MenuItem>
-                            <MenuItem value='Hi, '>Hi, </MenuItem>
-                            <MenuItem value='Hello, '>Hello, </MenuItem>
-                          </Select>
+                          {label[`greetings`] !== 'hidden' && (
+                            <Select
+                              labelId='greetings'
+                              id='greetings-id'
+                              value={label[`greetings`]}
+                              label='Greetings'
+                              onChange={onChangeHandler}
+                              size='small'
+                              name='greetings'
+                              fullWidth
+                            >
+                              <MenuItem value='Dear,'>Dear, </MenuItem>
+                              <MenuItem value='Greetings,'>Greetings, </MenuItem>
+                              <MenuItem value='Hi,'>Hi, </MenuItem>
+                              <MenuItem value='Hello,'>Hello, </MenuItem>
+                            </Select>
+                          )}
                         </FormControl>
                       </Grid>
                       <Grid item xs={12}>
@@ -385,7 +306,7 @@ export default function CustomizationForm({ id }) {
                           label='Enter Customer Name'
                           placeholder='Customer Name'
                           name='customerName'
-                          value={state.customerName}
+                          value={label.value}
                           size='small'
                           onChange={onChangeHandler}
                           multiline
@@ -402,13 +323,13 @@ export default function CustomizationForm({ id }) {
           <Card variant='outlined' style={{ marginBlock: '10px' }}>
             <CardContent>
               <List component='nav' aria-label='main mailbox folders'>
-                <ListItemButton selected={true} onClick={event => handleListItemClick(event, 0)}>
+                <ListItemButton selected={label.shape === 'Square'} onClick={event => handleListItemClick(event, 0)}>
                   <ListItemIcon>
                     <RectangleOutline />
                   </ListItemIcon>
                   <ListItemText primary='Square' />
                 </ListItemButton>
-                <ListItemButton onClick={event => handleListItemClick(event, 1)}>
+                <ListItemButton selected={label.shape === 'Ellipse'} onClick={event => handleListItemClick(event, 1)}>
                   <ListItemIcon>
                     <svg
                       style={{ transform: ` rotate(90deg)` }}

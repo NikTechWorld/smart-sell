@@ -9,11 +9,7 @@ import Heart from 'mdi-material-ui/Heart'
 export default function Gallery({ imageList, onClickCallBack }) {
   const theme = useTheme()
   const matchDownMd = useMediaQuery(theme.breakpoints.down('sm'))
-<<<<<<< HEAD
-  console.log(imageList)
 
-=======
->>>>>>> 23abcea3fa9683232e2d137cb83f49452a5382ab
   return (
     <ImageList cols={matchDownMd ? 1 : 5} gap={10}>
       {imageList.map(item => (
