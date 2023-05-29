@@ -81,7 +81,7 @@ const Navigation = props => {
   const ScrollWrapper = hidden ? Box : PerfectScrollbar
 
   return (
-    <Drawer {...props}>
+    <>
       <VerticalNavHeader {...props} />
       <StyledBoxForShadow
         ref={shadowRef}
@@ -110,7 +110,7 @@ const Navigation = props => {
             {userVerticalNavMenuContent ? (
               userVerticalNavMenuContent(props)
             ) : (
-              <List className='nav-items' sx={{ transition: 'padding .25s ease', pr: 4.5 }}>
+              <List className='nav-items' sx={{ transition: 'padding .25s ease', px: 3.5 }}>
                 <VerticalNavItems
                   groupActive={groupActive}
                   setGroupActive={setGroupActive}
@@ -124,7 +124,7 @@ const Navigation = props => {
         </ScrollWrapper>
       </Box>
       {afterVerticalNavMenuContent ? afterVerticalNavMenuContent(props) : null}
-    </Drawer>
+    </>
   )
 }
 

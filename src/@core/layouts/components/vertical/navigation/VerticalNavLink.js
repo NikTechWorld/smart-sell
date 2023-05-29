@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 // ** MUI Imports
 import Chip from '@mui/material/Chip'
 import ListItem from '@mui/material/ListItem'
-import { styled } from '@mui/material/styles'
+import { alpha, styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -23,17 +23,43 @@ import { handleURLQueries } from 'src/@core/layouts/utils'
 // ** Styled Components
 const MenuNavLink = styled(ListItemButton)(({ theme }) => ({
   width: '100%',
-  borderTopRightRadius: 100,
-  borderBottomRightRadius: 100,
   color: theme.palette.text.primary,
   padding: theme.spacing(2.25, 3.5),
   transition: 'opacity .25s ease-in-out',
+  position: "relative",
+  paddingLeft: theme.spacing(5),
+  fontSize: "15px",
+  paddingRight: theme.spacing(2.5),
+  color: "#e6e6e6",
+  "&:before": {
+    top: 0,
+    right: "-0.875rem",
+    width: 4,
+    bottom: 0,
+    content: "''",
+    display: "none",
+    position: "absolute",
+    borderTopLeftRadius: 4,
+    borderBottomLeftRadius: 4,
+    backgroundColor: theme.palette.primary.main,
+  },
+  
   '&.active, &.active:hover': {
-    boxShadow: theme.shadows[3],
-    backgroundImage: `linear-gradient(98deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.main} 94%)`
+    color: theme.palette.primary.main,
+    fontWeight: "fontWeightMedium",
+    bgcolor: alpha(
+      theme.palette.customColors.primaryGradient,
+      theme.palette.primary.main
+    ),
+    "&:before": { display: "block" },
+background: `linear-gradient(98deg, #3194fd38, #3194fd38 94%)`,
+borderRadius: theme.shape.borderRadius
+
+    // boxShadow: theme.shadows[3],
+    // backgroundImage: `linear-gradient(98deg, ${theme.palette.customColors.primaryGradient}, ${theme.palette.primary.main} 94%)`
   },
   '&.active .MuiTypography-root, &.active .MuiSvgIcon-root': {
-    color: `${theme.palette.common.white} !important`
+    color: `${theme.palette.primary.main} !important`,
   }
 }))
 

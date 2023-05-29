@@ -23,7 +23,11 @@ const Footer = props => {
         zIndex: 10,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        position: 'fixed',
+        bottom: 0,
+        background: '#fff',
+        width: '100%'
       }}
     >
       <Box
@@ -32,7 +36,7 @@ const Footer = props => {
           width: '100%',
           borderTopLeftRadius: 14,
           borderTopRightRadius: 14,
-          padding: theme.spacing(4, 6),
+          padding: theme.spacing(2, 4),
           ...(contentWidth === 'boxed' && { '@media (min-width:1440px)': { maxWidth: 1440 } })
         }}
       >

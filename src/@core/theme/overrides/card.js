@@ -3,7 +3,7 @@ const Card = theme => {
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: theme.shadows[6],
+          boxShadow: "0px 4px 14px 4px rgba(0, 0, 0, 0.05)",
           '& .card-more-options': {
             marginTop: theme.spacing(-1),
             marginRight: theme.spacing(-3)

@@ -23,7 +23,8 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
-  display: 'flex'
+  display: 'flex',
+  background: '#f2f4f7'
 })
 
 const MainContentWrapper = styled(Box)({
@@ -38,10 +39,15 @@ const ContentWrapper = styled('main')(({ theme }) => ({
   flexGrow: 1,
   width: '100%',
   padding: theme.spacing(6),
+  marginTop: '100px',
+  marginBottom: '60px',
   transition: 'padding .25s ease-in-out',
   [theme.breakpoints.down('sm')]: {
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4)
+  },
+  [theme.breakpoints.up('md')]: {
+    padding: '0 100px'
   }
 }))
 
@@ -62,24 +68,24 @@ const VerticalLayout = props => {
   return (
     <>
       <VerticalLayoutWrapper className='layout-wrapper'>
-        <Navigation
+        {/* <Navigation
           navWidth={navWidth}
           navVisible={navVisible}
           setNavVisible={setNavVisible}
           toggleNavVisibility={toggleNavVisibility}
           {...props}
-        />
+        /> */}
         <MainContentWrapper className='layout-content-wrapper'>
           <AppBar toggleNavVisibility={toggleNavVisibility} {...props} />
 
           <ContentWrapper
             className='layout-page-content'
-            style={{ height: 'calc(100vh - 120px)', overflowY: 'scroll' }}
             sx={{
               ...(contentWidth === 'boxed' && {
-                mx: 'auto',
-                '@media (min-width:1440px)': { maxWidth: 1440 },
-                '@media (min-width:1200px)': { maxWidth: '100%' }
+                mx: 'auto'
+
+                // '@media (min-width:1440px)': { maxWidth: 1440 },
+                // '@media (min-width:1200px)': { maxWidth: '100%' }
               })
             }}
           >

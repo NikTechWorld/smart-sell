@@ -8,12 +8,16 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(0, 6),
-  backgroundColor: 'transparent',
-  color: theme.palette.text.primary,
+  backgroundColor: '#fff',
+  color: theme.palette.text.primary,    
+  boxShadow: "0px 4px 14px 4px rgba(0, 0, 0, 0.05)",
   minHeight: theme.mixins.toolbar.minHeight,
   [theme.breakpoints.down('sm')]: {
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4)
+  },
+  [theme.breakpoints.up("md")]: {
+    padding: "0 100px"
   }
 }))
 
@@ -38,7 +42,7 @@ const LayoutAppBar = props => {
   const { contentWidth } = settings
 
   return (
-    <AppBar elevation={0} color='default' className='layout-navbar' position='static'>
+    <AppBar elevation={0} color='default' className='layout-navbar' position='fixed'>
       <Toolbar
         className='navbar-content-container'
         sx={{
