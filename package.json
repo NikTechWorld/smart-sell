@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/themeselection/materio-mui-react-nextjs-admin-template-free.git"
   },
-  "homepage": "https://themeselection.com/products/materio-free-mui-react-nextjs-admin-template/",
+  "homepage": "http://localhost:3000",
   "keywords": [
     "react",
     "javascript",
@@ -40,9 +40,7 @@
     "start": "next start",
     "export": "next export",
     "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
-    "format": "prettier --write \"src/**/*.{js,jsx}\"",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "format": "prettier --write \"src/**/*.{js,jsx}\""
   },
   "dependencies": {
     "@emotion/cache": "^11.6.0",
@@ -54,6 +52,7 @@
     "@mui/material": "^5.4.3",
     "@mui/styles": "^5.13.2",
     "@popperjs/core": "^2.11.2",
+    "@reduxjs/toolkit": "^1.9.5",
     "apexcharts-clevision": "3.28.5",
     "babel-eslint": "^10.1.0",
     "classnames": "^2.3.2",
@@ -69,7 +68,9 @@
     "react-draggable": "^4.4.5",
     "react-icons": "^4.9.0",
     "react-perfect-scrollbar": "^1.5.8",
-    "react-popper": "^2.2.5"
+    "react-popper": "^2.2.5",
+    "react-redux": "^8.0.5",
+    "redux-saga": "^1.2.3"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
@@ -78,7 +79,6 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.4",
-    "gh-pages": "^5.0.0",
     "next-transpile-modules": "^9.0.0",
     "prettier": "2.5.1"
   }

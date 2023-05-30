@@ -23,6 +23,11 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
+import { debounce } from 'src/configs/helper'
+import * as posterActions from 'src/state/reducers/poster/posterAction'
+import { bindActionCreators } from '@reduxjs/toolkit'
+import { connect } from 'react-redux'
+// import { searchPoster } from 'src/state/reducers/poster/posterAction'
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -113,7 +118,11 @@ const AppBarContent = props => {
   const hiddenSm = useMediaQuery(theme => theme.breakpoints.down('sm'))
   const routes = useRouter()
   const [isOpen, setOpen] = React.useState(false)
-
+  const { searchPoster, getPosterOfTheDay } = props.posterActions
+  const callSearch = event => {
+    searchPoster(event.target.value)
+  }
+  const searchPosterHandler = debounce(callSearch, 500)
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
@@ -235,6 +244,7 @@ const AppBarContent = props => {
           style={{
             marginTop: 0
           }}
+          onChange={searchPosterHandler}
           startAdornment={
             <InputAdornment position='start'>
               <Magnify fontSize='small' />
@@ -248,5 +258,12 @@ const AppBarContent = props => {
     </Box>
   )
 }
-
-export default AppBarContent
+function mapStateToProps(state) {
+  return { state }
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    posterActions: bindActionCreators(posterActions, dispatch)
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AppBarContent)
