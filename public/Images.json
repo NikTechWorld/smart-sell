@@ -61,5 +61,33 @@
     "title": "coronavirus",
     "isFavorite": false,
     "tag": "health"
+  },
+  {
+    "id": "10",
+    "imgURL": "/images/posters/10.jpg",
+    "title": "coronavirus",
+    "isFavorite": false,
+    "tag": "health"
+  },
+  {
+    "id": "11",
+    "imgURL": "/images/posters/11.jpg",
+    "title": "coronavirus",
+    "isFavorite": false,
+    "tag": "health,hindi"
+  },
+  {
+    "id": "12",
+    "imgURL": "/images/posters/12.jpg",
+    "title": "coronavirus",
+    "isFavorite": false,
+    "tag": "health,tamil"
+  },
+  {
+    "id": "13",
+    "imgURL": "/images/posters/13.jpg",
+    "title": "coronavirus",
+    "isFavorite": false,
+    "tag": "health,telugu"
   }
 ]
