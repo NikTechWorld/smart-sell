@@ -1,60 +1,65 @@
 [
-    {
-        "id": "1",
-        "imgURL": "/images/posters/1.jpg",
-        "title": "rakshabandhan",
-        "isFavorite": false,
-        "tag": "festival"
-    },
-    {
-        "id": "2",
-        "imgURL": "/images/posters/2.jpg",
-        "title": "merrychristmas",
-        "isFavorite": false,
-        "tag": "festival"
-    }, {
-        "id": "3",
-        "imgURL": "/images/posters/3.jpg",
-        "title": "diwali",
-        "isFavorite": false,
-        "tag": "festival"
-    }, {
-        "id": "4",
-        "imgURL": "/images/posters/4.jpg",
-        "title": "birthday",
-        "isFavorite": false,
-        "tag": "festival"
-    }, {
-        "id": "5",
-        "imgURL": "/images/posters/5.jpg",
-        "title": "hospitalnetwork",
-        "isFavorite": false,
-        "tag": "insurance"
-    }, {
-        "id": "6",
-        "imgURL": "/images/posters/6.jpg",
-        "title": "taxplanning",
-        "isFavorite": false,
-        "tag": "insurance"
-    }, {
-        "id": "7",
-        "imgURL": "/images/posters/7.jpg",
-        "title": "cancercare",
-        "isFavorite": false,
-        "tag": "health"
-    }, {
-        "id": "8",
-        "imgURL": "/images/posters/8.jpg",
-        "title": "care",
-        "isFavorite": false,
-        "tag": "health"
-    }, {
-        "id": "9",
-        "imgURL": "/images/posters/9.jpg",
-        "title": "coronavirus",
-        "isFavorite": false,
-        "tag": "health"
-    }
+  {
+    "id": "1",
+    "imgURL": "/images/posters/1.jpg",
+    "title": "rakshabandhan",
+    "isFavorite": false,
+    "tag": "festival,rakhi"
+  },
+  {
+    "id": "2",
+    "imgURL": "/images/posters/2.jpg",
+    "title": "merrychristmas",
+    "isFavorite": true,
+    "tag": "festival"
+  },
+  {
+    "id": "3",
+    "imgURL": "/images/posters/3.jpg",
+    "title": "diwali",
+    "isFavorite": false,
+    "tag": "festival"
+  },
+  {
+    "id": "4",
+    "imgURL": "/images/posters/4.jpg",
+    "title": "birthday",
+    "isFavorite": false,
+    "tag": "festival"
+  },
+  {
+    "id": "5",
+    "imgURL": "/images/posters/5.jpg",
+    "title": "hospitalnetwork",
+    "isFavorite": false,
+    "tag": "insurance"
+  },
+  {
+    "id": "6",
+    "imgURL": "/images/posters/6.jpg",
+    "title": "taxplanning",
+    "isFavorite": false,
+    "tag": "insurance"
+  },
+  {
+    "id": "7",
+    "imgURL": "/images/posters/7.jpg",
+    "title": "cancercare",
+    "isFavorite": false,
+    "tag": "health"
+  },
+  {
+    "id": "8",
+    "imgURL": "/images/posters/8.jpg",
+    "title": "care",
+    "isFavorite": false,
+    "tag": "health"
+  },
+  {
+    "id": "9",
+    "imgURL": "/images/posters/9.jpg",
+    "title": "coronavirus",
+    "isFavorite": false,
+    "tag": "health"
+  }
 ]
-
-

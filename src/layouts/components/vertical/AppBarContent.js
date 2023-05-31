@@ -17,7 +17,7 @@ import NotificationDropdown from 'src/@core/layouts/components/shared-components
 import VerticalNavHeader from 'src/@core/layouts/components/vertical/navigation/VerticalNavHeader'
 import Link from 'src/@core/theme/overrides/link'
 import CustomInputField from 'src/@core/components/CustomInputField'
-import { SwipeableDrawer, styled } from '@mui/material'
+import { Badge, SwipeableDrawer, styled } from '@mui/material'
 import navigation from 'src/navigation/vertical'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -27,6 +27,7 @@ import { debounce } from 'src/configs/helper'
 import * as posterActions from 'src/state/reducers/poster/posterAction'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { connect } from 'react-redux'
+import { Heart } from 'mdi-material-ui'
 // import { searchPoster } from 'src/state/reducers/poster/posterAction'
 
 const useStyles = makeStyles(theme => ({
@@ -110,7 +111,16 @@ const NavListWrapper = styled(Box)(({ theme }) => ({
 
 const AppBarContent = props => {
   // ** Props
-  const { hidden, settings, saveSettings, toggleNavVisibility } = props
+  const {
+    hidden,
+    settings,
+    saveSettings,
+    toggleNavVisibility,
+
+    state: {
+      posterReducer: { favoriteCount }
+    }
+  } = props
   let navList = navigation()
   const classes = useStyles()
 
@@ -251,8 +261,15 @@ const AppBarContent = props => {
             </InputAdornment>
           }
         />
+        {/* <Badge badgeContent={0}> */}
+        <IconButton aria-label='heart'>
+          <Badge badgeContent={favoriteCount} color='primary' className='heart-badge '>
+            <Heart style={{ color: '#FF4C51', fontSize: '25px' }} />
+          </Badge>
+        </IconButton>
+        {/* </Badge> */}
         {/* <ModeToggler settings={settings} saveSettings={saveSettings} /> */}
-        <NotificationDropdown />
+        {/* <NotificationDropdown /> */}
         <UserDropdown />
       </Box>
     </Box>

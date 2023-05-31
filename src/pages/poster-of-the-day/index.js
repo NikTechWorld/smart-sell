@@ -12,33 +12,37 @@ import imgList from './Images.json'
 import { connect } from 'react-redux'
 import * as posterActions from './../../state/reducers/poster/posterAction'
 import { bindActionCreators } from '@reduxjs/toolkit'
+import { Card, CardContent } from '@mui/material'
 const CardBasic = props => {
-  const [state, setState] = useState({})
+  const [state, setState] = useState(null)
   const router = useRouter()
+  const { getPosterOfTheDay, setFavorite } = props.posterActions
   const handleClick = (e, item) => {
     router.push(`/poster-of-the-day/${item.id}`)
   }
   useEffect(() => {
-    props.posterActions.getPosterOfTheDay()
+    getPosterOfTheDay()
   }, [])
   useEffect(() => {
     setState(props.state.posterReducer)
   }, [props])
-  const setIsFavorite = (id, value) => {
-    let updatedState = state.map(obj => (obj.id === id ? { ...obj, isFavorite: !value } : obj))
-    setState(updatedState)
+  const setIsFavorite = id => {
+    setFavorite(id)
   }
-  console.log(state.poster)
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={10} sx={{ paddingBottom: 4 }}>
-        <Typography variant='h5'>Poster of The Day</Typography>
-      </Grid>
-      <Grid item xs={2} sx={{ paddingBottom: 4 }}></Grid>
-      {state?.posters && (
-        <Gallery imageList={state?.posters} onClickCallBack={handleClick} setIsFavorite={setIsFavorite} />
-      )}
-    </Grid>
+    // <Grid container spacing={6}>
+    //   <Grid item xs={10} sx={{ paddingBottom: 4 }}>
+    //     <Typography variant='h5'>Poster of The Day</Typography>
+    //   </Grid>
+    //   <Grid item xs={2} sx={{ paddingBottom: 4 }}></Grid>
+    <Card>
+      <CardContent>
+        {state?.posters && (
+          <Gallery imageList={state?.posters} onClickCallBack={handleClick} setIsFavorite={setIsFavorite} />
+        )}
+      </CardContent>
+    </Card>
+    // </Grid>
   )
 }
 

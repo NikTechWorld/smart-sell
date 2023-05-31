@@ -128,3 +128,6 @@ code[class*='language-'] {
   height: 0;
   padding-bottom: 100%;
 }
+.heart-badge span {
+  background-color: #35488a;
+}

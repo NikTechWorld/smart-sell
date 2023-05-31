@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import { Card, CardContent, CardHeader } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 // ** Layout Imports
