@@ -13,6 +13,7 @@ import Magnify from 'mdi-material-ui/Magnify'
 // ** Components
 import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
+import FavoritePoster from 'src/@core/layouts/components/shared-components/FavoritePoster'
 import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 import VerticalNavHeader from 'src/@core/layouts/components/vertical/navigation/VerticalNavHeader'
 import Link from 'src/@core/theme/overrides/link'
@@ -118,7 +119,7 @@ const AppBarContent = props => {
     toggleNavVisibility,
 
     state: {
-      posterReducer: { favoriteCount }
+      posterReducer: { favoriteCount, posters }
     }
   } = props
   let navList = navigation()
@@ -262,11 +263,8 @@ const AppBarContent = props => {
           }
         />
         {/* <Badge badgeContent={0}> */}
-        <IconButton aria-label='heart'>
-          <Badge badgeContent={favoriteCount} color='primary' className='heart-badge '>
-            <Heart style={{ color: '#FF4C51', fontSize: '25px' }} />
-          </Badge>
-        </IconButton>
+
+        <FavoritePoster favoriteCount={favoriteCount} data={posters.filter(x => x.isFavorite)} />
         {/* </Badge> */}
         {/* <ModeToggler settings={settings} saveSettings={saveSettings} /> */}
         {/* <NotificationDropdown /> */}
