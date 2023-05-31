@@ -23,7 +23,7 @@ const HeaderTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
   lineHeight: 'normal',
   textTransform: 'uppercase',
-  color: theme.palette.text.primary,
+  // color: theme.palette.text.primary,
   transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
 }))
 
@@ -109,7 +109,7 @@ const VerticalNavHeader = props => {
             <img src='https://d28c6jni2fmamz.cloudfront.net/star_health_logo_big_77cff254bd.svg' width={"100%"} style={{
               padding: 40
             }} />
-            <HeaderTitle variant='h6' sx={{ ml: 3 }}>
+            <HeaderTitle variant='h6' sx={{ mls: 3 }}>
               {themeConfig.templateName}
             </HeaderTitle>
           </StyledLink>

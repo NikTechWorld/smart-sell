@@ -15,18 +15,7 @@ const Festivals = () => {
   const handleClick = (e, item) => {
     router.push(`/poster-of-the-day/${item.id}`)
   }
-  // useEffect(() => {
-  //   let array = []
-  //   for (let i = 1; i <= 9 ; i++) {
-  //     array.push({
-  //       id: i,
-  //       img: `/images/posters/${i}.jpg`,
-  //       title: i,
-  //       isFavorite: false
-  //     })
-  //   }
-  //   setState(array)
-  // }, [])
+  
   const setIsFavorite = (id, value) => {
     let updatedState = state.map(obj => (obj.id === id ? { ...obj, isFavorite: !value } : obj))
     setState(updatedState)

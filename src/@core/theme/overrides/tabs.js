@@ -7,7 +7,8 @@ const Tabs = theme => {
           marginRight: theme.spacing(4),
           borderRight: `1px solid ${theme.palette.divider}`,
           '& .MuiTab-root': {
-            minWidth: 130
+            minWidth: 130,
+            display: "none"
           }
         }
       }

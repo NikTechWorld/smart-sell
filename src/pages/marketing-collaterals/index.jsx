@@ -21,13 +21,18 @@ import HealthGuidance from 'src/views/Marketing-Collaterals/HealthGuidance'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import { makeStyles } from '@mui/styles'
+import { BorderRadius } from 'mdi-material-ui'
+import { MenuItem, Select } from '@mui/material'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
-    minWidth: 100
+    minWidth: '10%',
+    fontSize:'10px',
+    // display: "none"
   },
   [theme.breakpoints.down('sm')]: {
-    minWidth: 67
+    minWidth: '10%',
   }
 }))
 
@@ -36,23 +41,60 @@ const TabName = styled('span')(({ theme }) => ({
   fontSize: '0.875rem',
   marginLeft: theme.spacing(2.4),
   [theme.breakpoints.down('md')]: {
-    display: 'none'
+    width:'maxWidth',
+    fontSize: '0.7rem'
+  },
+  [theme.breakpoints.down('sm')]: {
+    minWidth: '10%',
+    fontSize: '0.6rem',
+    display:'flex'
   }
 }))
 
+const useStyles = makeStyles((theme) => ({
+  dropcard: {
+    padding: "10px 20px",
+    "& .collateralOptions": {
+      display: "none !important",
+      [theme.breakpoints.down("md")]: {
+        display: "block !important"
+
+      }
+    },
+    "& .MuiTabs-root": {
+      [theme.breakpoints.down("md")]: {
+        display: "none !important"
+      }
+    }
+    ,
+    [theme.breakpoints.up('md')]: {
+      padding: 0
+    }
+  }
+  
+}))
+
+
 const MarketingCollaterals = () => {
   const [value, setValue] = useState('healthGuidance')
-
+  const classes  = useStyles()
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 
   return (
-    <Card>
+    <Card className={classes.dropcard}>
+      <Select className='collateralOptions' defaultValue={"healthGuidance"} onChange={(e) => {
+        setValue(e.target.value)
+      }} fullWidth>
+        <MenuItem value="festival">Festival</MenuItem>
+        <MenuItem  value="healthGuidance" >Health Guidance</  MenuItem>
+        <MenuItem value="insuranceConcept">Insurance Concepts</MenuItem>
+      </Select>
       <TabContext value={value}>
         <TabList
+        //  className={classess.MuiTabList-vertical}
           onChange={handleChange}
-          // aria-label='account-settings tabs'
           sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}`, backgroundColor: '#E3F4F4' }}
         >
           <Tab
@@ -82,16 +124,29 @@ const MarketingCollaterals = () => {
               </Box>
             }
           />
+          {/* <div>
+          <select >
+            <option value='festival'>Festival</option>
+            <option value='insuranceConcept'>Insurance Concepts
+            </option>
+            <option selected="true"  value='healthGuidance'>
+              Health Guidance</option>
+          </select>
+          </div> */}
+          
         </TabList>
-        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: '408px' }} value='festival'>
+        
+        {/* <div className=''> */}
+        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: 'max-content' }} value='festival'>
           <Festivals />
         </TabPanel>
-        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: '408px' }} value='insuranceConcept'>
+        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height:"max-content" }} value='insuranceConcept'>
           <InsuranceConcepts />
         </TabPanel>
-        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: '408px' }} value='healthGuidance'>
+        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: 'max-content' }} value='healthGuidance'>
           <HealthGuidance />
         </TabPanel>
+        {/* </div> */}
       </TabContext>
     </Card>
   )

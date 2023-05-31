@@ -11,7 +11,7 @@ export default function Gallery({ imageList, onClickCallBack }) {
   const matchDownMd = useMediaQuery(theme.breakpoints.down('sm'))
 
   return (
-    <ImageList cols={matchDownMd ? 1 : 4} gap={10}>
+    <ImageList cols={matchDownMd ? 1 : 4} gap={50}>
       {imageList.map(item => (
         <ImageListItem key={item?.img} cols={item?.cols || 1}>
           <img
