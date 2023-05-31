@@ -87,6 +87,10 @@ const MarketingCollaterals = props => {
   useEffect(() => {
     setState(props.posterReducer.posters)
   }, [props])
+
+  useEffect(() => {
+    if (!state.length) getPosterOfTheDay()
+  }, [])
   const setIsFavorite = id => {
     setFavorite(id)
   }
