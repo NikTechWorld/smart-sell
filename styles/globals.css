@@ -96,3 +96,47 @@ code[class*='language-'] {
   height: 0;
   padding-bottom: 100%;
 }
+
+#presentation {
+  background-color: darkslateblue;
+  color: white;
+  height: 653px;
+  width: 718px;
+  font-size: small;
+  margin: auto;
+  position: relative;
+}
+
+#presentation .branding {
+  width: fit-content;
+
+  background: #fff;
+
+  color: #000;
+
+  position: absolute;
+
+  bottom: 20%;
+
+  padding: 20px;
+
+  border-radius: 0px 15px 15px 0px;
+}
+
+#presentation .quote {
+  position: absolute;
+
+  bottom: -30px;
+
+  background-color: teal;
+
+  width: 100%;
+
+  text-align: center;
+
+  padding: 20px;
+
+  font-weight: 500;
+
+  font-size: 1.3rem;
+}

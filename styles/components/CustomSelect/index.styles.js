@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles'
 
-const customInputStyles = makeStyles(theme => ({
+const customSelectStyles = makeStyles(theme => ({
   inputLabelNoShrink: {
     textTransform: 'uppercase',
     fontSize: '12px',
@@ -20,9 +20,17 @@ const customInputStyles = makeStyles(theme => ({
     }
   },
   notchedOutline: {
-    borderWidth: '2px',
-    boxShadow: 'none'
+    boxShadow: 'none',
+    background: '#fff',
+    '& .MuiSelect-select': {
+      border: '2px solid #E5E4E2'
+    }
+  },
+  formControl: {
+    [theme.breakpoints.down('md')]: {
+      margin: '20px 0'
+    }
   }
 }))
 
-export default customInputStyles
+export default customSelectStyles

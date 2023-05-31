@@ -17,12 +17,13 @@ import NotificationDropdown from 'src/@core/layouts/components/shared-components
 import VerticalNavHeader from 'src/@core/layouts/components/vertical/navigation/VerticalNavHeader'
 import Link from 'src/@core/theme/overrides/link'
 import CustomInputField from 'src/@core/components/CustomInputField'
-import { SwipeableDrawer, styled } from '@mui/material'
+import { Divider, SwipeableDrawer, styled } from '@mui/material'
 import navigation from 'src/navigation/vertical'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { makeStyles } from '@mui/styles'
 import classNames from 'classnames'
+import MobileViewProfileMenu from 'src/@core/layouts/components/shared-components/mobileViewProfile'
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -59,6 +60,18 @@ const useStyles = makeStyles(theme => ({
     padding: '0 10px',
     '& :hover': {
       color: theme.palette.primary.dark
+    }
+  },
+  profileContainer: {
+    background: theme.palette.primary.main,
+    borderRadius: theme.shape.borderRadius,
+    margin: 10,
+    boxShadow: '0px 4px 14px 4px rgba(0, 0, 0, 0.05)',
+    '& .MuiTypography-root': {
+      color: '#fff'
+    },
+    '& button, & button:hover': {
+      color: '#fff !important'
     }
   }
 }))
@@ -147,22 +160,8 @@ const AppBarContent = props => {
               <Menu />
             </IconButton>
             <SwipeableDrawer anchor={'left'} open={isOpen} onClose={() => setOpen(false)} className={classes.drawer}>
-              <img
-                src='https://vo-uat.starhealth.in/static/star-health-logo.png'
-                width={150}
-                onClick={() => {
-                  routes.push('/')
-                  setOpen(false)
-                }}
-                style={{
-                  padding: '0px 15px',
-                  margin: '5vh auto',
-                  marginTop: '2vh',
-                  cursor: 'pointer',
-                  paddingLeft: 0
-                }}
-                alt='not-found'
-              />
+              <MobileViewProfileMenu classes={classes} />
+              <Divider sx={{ mb: 3 }} />
               <ul className={classes.ul}>
                 {navList.map((navItem, idx) => (
                   <li
@@ -242,8 +241,8 @@ const AppBarContent = props => {
           }
         />
         {/* <ModeToggler settings={settings} saveSettings={saveSettings} /> */}
-        <NotificationDropdown />
-        <UserDropdown />
+        {/* <NotificationDropdown /> */}
+        {hidden ? null : <UserDropdown />}
       </Box>
     </Box>
   )
