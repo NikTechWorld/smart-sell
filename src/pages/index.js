@@ -46,7 +46,7 @@ const Dashboard = () => {
     return () => {
       saveSettings({ ...settings, hidden: false })
     }
-  })
+  }, [])
 
   return (
     <ApexChartWrapper className='dashboard'>

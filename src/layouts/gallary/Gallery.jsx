@@ -13,7 +13,7 @@ export default function Gallery({ imageList, onClickCallBack }) {
   return (
     <ImageList cols={matchDownMd ? 1 : 4} gap={50}>
       {imageList.map(item => (
-        <ImageListItem key={item?.img} cols={item?.cols || 1}>
+        <ImageListItem key={item?.id} cols={item?.cols || 1}>
           <img
             src={item?.imgURL}
             alt={item?.title}

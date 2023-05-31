@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import * as htmlToImage from 'html-to-image'
 
 import Draggable from 'react-draggable'
