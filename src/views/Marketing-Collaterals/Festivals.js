@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+
 
 // ** Demo Components Imports
 import Gallery from 'src/layouts/gallary/Gallery'
 import { useRouter } from 'next/router'
-import { Festival } from '@mui/icons-material'
+
 
 const Festivals = ({ data, setIsFavorite }) => {
   const [state, setState] = useState(data)
