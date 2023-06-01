@@ -250,7 +250,8 @@ const AppBarContent = props => {
         {!settings.hidden ? (
           <FavoritePoster favoriteCount={favoriteCount} data={posters.filter(x => x.isFavorite)} />
         ) : hidden ? null : null}
-        {!settings.hidden ? <UserDropdown /> : hidden ? null : null}
+
+        {settings.hidden ? <UserDropdown /> : hidden ? '' : <UserDropdown />}
       </Box>
     </Box>
   )

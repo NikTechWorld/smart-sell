@@ -10,7 +10,7 @@ export default function PlanListComponent({ handleAction }) {
 
   return (
     <div>
-      <Paper className={classes.paper}>Hello Sid</Paper>
+      <Paper className={classes.paper}>&nbsp;</Paper>
       <div className={classes.listContainer}>
         <Typography variant='h4' className={classes.typo}>
           Create Presentation
