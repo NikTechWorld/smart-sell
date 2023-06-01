@@ -12,27 +12,15 @@ import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import ToggleButton from '@mui/material/ToggleButton'
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
-import Box from '@mui/material/Box'
-
+import CustomPopover from './../../@core/components/CustomPopover'
 import { styled, useTheme } from '@mui/material/styles'
 
 // ** Icons Imports
 import FormatBoldIcon from 'mdi-material-ui/FormatBold'
 import FormatItalicIcon from 'mdi-material-ui/FormatItalic'
+import { FormatColorText, Download, RectangleOutline, ShareVariant, AlphabeticalVariant } from 'mdi-material-ui'
 import {
-  FormatColorText,
-  Download,
-  PrinterEye,
-  Heart,
-  RectangleOutline,
-  ShareVariant,
-  Inbox,
-  AlphabeticalVariant
-} from 'mdi-material-ui'
-import {
-  Button,
-  CardActionArea,
+  Box,
   FormControl,
   IconButton,
   InputLabel,
@@ -46,6 +34,7 @@ import {
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Edit } from '@mui/icons-material'
+import Paper from 'src/@core/theme/overrides/paper'
 
 // ** helper Imports
 // import { pSBC } from './helper'
@@ -58,6 +47,7 @@ export default function CustomizationForm({ id }) {
   const [state, setState] = useState({
     labels: [
       {
+        id: 0,
         shape: `Default`,
         position: 'top-left',
         greetings: `Greetings,`,
@@ -67,10 +57,12 @@ export default function CustomizationForm({ id }) {
           bold: false,
           italic: false,
           fontColor: `black`,
-          fontSize: `12px`
-        }
+          fontSize: `12`
+        },
+        editable: true
       },
       {
+        id: 1,
         shape: `Text`,
         position: 'bottom-right',
         greetings: `hidden`,
@@ -80,8 +72,9 @@ export default function CustomizationForm({ id }) {
           bold: false,
           italic: false,
           fontColor: `black`,
-          fontSize: `12px`
-        }
+          fontSize: `12`
+        },
+        editable: false
       }
     ]
   })
@@ -192,13 +185,45 @@ export default function CustomizationForm({ id }) {
                 <Draggable bounds='parent' key={index}>
                   <DivStyled
                     className={`${label.position} ${label.shape} label`}
-                    onClick={e => setActiveLabel(index)}
+                    onClick={e => label.editable && setActiveLabel(index)}
                     draggable={true}
                   >
-                    {showEditIcon && hiddenSm && (
-                      <div className='poster-edit-icon'>
-                        <Edit />
-                      </div>
+                    {showEditIcon && label.editable && hiddenSm && (
+                      <CustomPopover
+                        content={
+                          <div
+                            style={{
+                              width: `150px`,
+                              display: `grid`,
+                              padding: '10px',
+                              gridTemplateColumns: `auto auto auto`
+                            }}
+                          >
+                            <div>
+                              <AlphabeticalVariant />
+                            </div>
+                            <div>
+                              <RectangleOutline />
+                            </div>
+                            <div>
+                              <svg
+                                style={{ transform: ` rotate(90deg)` }}
+                                fill='none'
+                                height='24'
+                                viewBox='0 0 24 24'
+                                width='24'
+                                xmlns='http://www.w3.org/2000/svg'
+                              >
+                                <ellipse cx='12' cy='12' rx='8' ry='10' stroke='black' strokeWidth='2' />
+                              </svg>
+                            </div>
+                          </div>
+                        }
+                      >
+                        <div className='poster-edit-icon'>
+                          <Edit />
+                        </div>
+                      </CustomPopover>
                     )}
                     {(label.greetings && label.greetings !== 'hidden' ? label.greetings : '') + ' ' + label.value}
                   </DivStyled>
@@ -293,8 +318,8 @@ export default function CustomizationForm({ id }) {
                         size='small'
                         label='font size'
                         inputProps={{ min: 10 }}
-                        defaultValue={state.fontSize}
-                        value={state.fontSize}
+                        defaultValue={14}
+                        value={label.formate.fontSize}
                         onChange={onChangeHandler}
                         name='fontSize'
                       />

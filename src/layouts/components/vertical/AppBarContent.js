@@ -152,7 +152,6 @@ const AppBarContent = props => {
       <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
         {settings.hidden ? (
           <>
-            {' '}
             <img
               src='https://vo-uat.starhealth.in/static/star-health-logo.png'
               width={150}
@@ -234,21 +233,24 @@ const AppBarContent = props => {
       </Box>
       <Box className='action-center'></Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-        {!settings.hidden ? (<CustomInputField
-          size='small'
-          style={{
-            marginTop: 0
-          }}
-          onChange={searchPosterHandler}
-          startAdornment={
-            <InputAdornment position='start'>
-              <Magnify fontSize='small' />
-            </InputAdornment>
-          }
-        />) : hidden ? (null) : null}
-        {!settings.hidden ? (<FavoritePoster favoriteCount={favoriteCount} data={posters.filter(x => x.isFavorite)} />
-        ) : hidden ? (null) : null}
-        {!settings.hidden ? (<UserDropdown />) : hidden ? (null ) : null}
+        {!settings.hidden ? (
+          <CustomInputField
+            size='small'
+            style={{
+              marginTop: 0
+            }}
+            onChange={searchPosterHandler}
+            startAdornment={
+              <InputAdornment position='start'>
+                <Magnify fontSize='small' />
+              </InputAdornment>
+            }
+          />
+        ) : hidden ? null : null}
+        {!settings.hidden ? (
+          <FavoritePoster favoriteCount={favoriteCount} data={posters.filter(x => x.isFavorite)} />
+        ) : hidden ? null : null}
+        {!settings.hidden ? <UserDropdown /> : hidden ? null : null}
       </Box>
     </Box>
   )
