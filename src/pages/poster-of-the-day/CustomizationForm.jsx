@@ -20,8 +20,18 @@ import { styled, useTheme } from '@mui/material/styles'
 // ** Icons Imports
 import FormatBoldIcon from 'mdi-material-ui/FormatBold'
 import FormatItalicIcon from 'mdi-material-ui/FormatItalic'
-import { FormatColorText, Download, PrinterEye, Heart, RectangleOutline, ShareVariant, Inbox } from 'mdi-material-ui'
 import {
+  FormatColorText,
+  Download,
+  PrinterEye,
+  Heart,
+  RectangleOutline,
+  ShareVariant,
+  Inbox,
+  AlphabeticalVariant
+} from 'mdi-material-ui'
+import {
+  Button,
   CardActionArea,
   FormControl,
   IconButton,
@@ -35,6 +45,7 @@ import {
   Select
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { Edit } from '@mui/icons-material'
 
 // ** helper Imports
 // import { pSBC } from './helper'
@@ -43,39 +54,34 @@ export default function CustomizationForm({ id }) {
   // ** Hook
   const theme = useTheme()
   const imageDivRef = useRef(null)
-
+  const [showEditIcon, setShowEditIcon] = useState(true)
   const [state, setState] = useState({
-    formats: [],
     labels: [
       {
-        shape: `Square`,
+        shape: `Default`,
         position: 'top-left',
         greetings: `Greetings,`,
         label: `customerName`,
         value: '',
-        formate: [
-          {
-            bold: false,
-            italic: false,
-            fontColor: `black`,
-            fontSize: `12px`
-          }
-        ]
+        formate: {
+          bold: false,
+          italic: false,
+          fontColor: `black`,
+          fontSize: `12px`
+        }
       },
       {
-        shape: `Square`,
+        shape: `Text`,
         position: 'bottom-right',
         greetings: `hidden`,
         label: `customerName`,
         value: 'Agent XYZ',
-        formate: [
-          {
-            bold: false,
-            italic: false,
-            fontColor: `black`,
-            fontSize: `12px`
-          }
-        ]
+        formate: {
+          bold: false,
+          italic: false,
+          fontColor: `black`,
+          fontSize: `12px`
+        }
       }
     ]
   })
@@ -83,14 +89,35 @@ export default function CustomizationForm({ id }) {
   const [color, setColor] = useState('')
 
   const onChangeHandler = event => {
-    console.log(event)
-    if (event.target.name !== undefined) {
-      let labels = state.labels
-      let label = labels[activeLabel]
-      event.target.name === `greetings` ? (label.greetings = event.target.value) : (label.value = event.target.value)
-      labels[activeLabel] = label
-      setState({ ...state, labels })
+    let labels = state.labels
+    let label = labels[activeLabel]
+    if (event.target) {
+      if (event.target.name !== undefined)
+        switch (event.target.name) {
+          case 'greetings':
+            label.greetings = event.target.value
+            break
+          case 'fontSize':
+            label.formate.fontSize = event.target.value
+            break
+          default:
+            label.value = event.target.value
+            break
+        }
+    } else {
+      switch (event) {
+        case 'bold':
+          label.formate.bold = !label.formate.bold
+          break
+        case 'italic':
+          label.formate.italic = !label.formate.italic
+          break
+        default:
+          break
+      }
     }
+    labels[activeLabel] = label
+    setState({ ...state, labels })
   }
   const handleListItemClick = event => {
     let labels = state.labels
@@ -103,10 +130,6 @@ export default function CustomizationForm({ id }) {
     setColor(event.target.getAttribute('value'))
     setAnchorEl(null)
   }
-
-  const handleFormat = (event, newFormats) => {
-    setState({ ...state, formats: newFormats })
-  }
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleColorPicker = event => {
@@ -117,26 +140,45 @@ export default function CustomizationForm({ id }) {
 
   const DivStyled = styled('div')(({ theme }) => ({
     padding: '10px',
-    fontWeight: state.formats.includes('bold') ? 'bold' : 'none',
-    fontStyle: state.formats.includes('italic') ? 'italic' : 'none',
+    fontWeight: state.labels[activeLabel].formate.bold ? 'bold' : 'none',
+    fontStyle: state.labels[activeLabel].formate.italic ? 'italic' : 'none',
     color: color,
-    fontSize: state.fontSize + 'px',
+    fontSize: state.labels[activeLabel].formate.fontSize + 'px',
     whiteSpace: 'pre-line',
     textAlign: 'start'
 
     // Square
   }))
   const label = state.labels[activeLabel]
+  let hiddenSm = useMediaQuery(theme.breakpoints.down('sm'))
   return (
-    <Grid
-      container
-      spacing={2}
-      direction={useMediaQuery(theme.breakpoints.down('sm')) ? 'column-reverse' : ''}
-      style={{ height: 'inherit' }}
-    >
+    <Grid container spacing={2} direction={hiddenSm ? 'column-reverse' : ''} style={{ height: 'inherit' }}>
       <Grid item xs={8} textAlign={'center'} alignItems={'center'} style={{ height: 'inherit' }}>
         <Card>
           <CardContent>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
+                <IconButton
+                  aria-label='download'
+                  onClick={async () => {
+                    setShowEditIcon(false)
+                    const dataUrl = await htmlToImage.toPng(imageDivRef.current)
+                    const link = document.createElement('a')
+                    link.download = `${id}.png`
+                    link.href = dataUrl
+                    link.click()
+                    setShowEditIcon(true)
+                  }}
+                >
+                  <Download />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <IconButton aria-label='share'>
+                  <ShareVariant />
+                </IconButton>
+              </Box>
+            </Box>
             <div className='container' ref={imageDivRef} onDrop={() => {}}>
               <img
                 src={`/images/posters/${id}.jpg`}
@@ -153,32 +195,16 @@ export default function CustomizationForm({ id }) {
                     onClick={e => setActiveLabel(index)}
                     draggable={true}
                   >
+                    {showEditIcon && hiddenSm && (
+                      <div className='poster-edit-icon'>
+                        <Edit />
+                      </div>
+                    )}
                     {(label.greetings && label.greetings !== 'hidden' ? label.greetings : '') + ' ' + label.value}
                   </DivStyled>
                 </Draggable>
               ))}
             </div>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
-                <IconButton
-                  aria-label='download'
-                  onClick={async () => {
-                    const dataUrl = await htmlToImage.toPng(imageDivRef.current)
-                    const link = document.createElement('a')
-                    link.download = `${id}.png`
-                    link.href = dataUrl
-                    link.click()
-                  }}
-                >
-                  <Download />
-                </IconButton>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton aria-label='share'>
-                  <ShareVariant />
-                </IconButton>
-              </Box>
-            </Box>
           </CardContent>
         </Card>
       </Grid>
@@ -190,80 +216,78 @@ export default function CustomizationForm({ id }) {
               <form onSubmit={event => event.preventDefault()}>
                 <Grid container spacing={5}>
                   <Grid item xs={12}>
-                    <ButtonGroup variant='outlined' aria-label='outlined button group' style={{ width: 'inherit' }}>
-                      <ToggleButtonGroup
-                        value={state.formats}
-                        onChange={handleFormat}
-                        aria-label='text formatting'
-                        size='small'
-                      >
-                        <ToggleButton value='bold' aria-label='bold'>
-                          <FormatBoldIcon />
-                        </ToggleButton>
-                        <ToggleButton value='italic' aria-label='italic'>
-                          <FormatItalicIcon />
-                        </ToggleButton>
-                        <ToggleButton>
-                          <FormatColorText
-                            aria-describedby={'id'}
-                            variant='contained'
-                            onClick={handleColorPicker}
-                            style={{ fill: color || 'currentColor' }}
-                          />
-                          <Popover
-                            id={'id'}
-                            open={open}
-                            anchorEl={anchorEl}
-                            onClose={event => setAnchorEl(null)}
-                            anchorOrigin={{
-                              vertical: 'bottom',
-                              horizontal: 'left'
+                    <ButtonGroup
+                      variant='outlined'
+                      className='custom-button-group'
+                      aria-label='outlined button group'
+                      style={{ width: 'inherit' }}
+                    >
+                      <ToggleButton selected={label.formate.bold} onClick={e => onChangeHandler('bold')}>
+                        <FormatBoldIcon />
+                      </ToggleButton>
+                      <ToggleButton selected={label.formate.italic} onClick={e => onChangeHandler('italic')}>
+                        <FormatItalicIcon />
+                      </ToggleButton>
+                      <ToggleButton selected={true}>
+                        <FormatColorText
+                          aria-describedby={'id'}
+                          variant='contained'
+                          onClick={handleColorPicker}
+                          style={{ fill: color || 'currentColor' }}
+                        />
+                        <Popover
+                          id={'id'}
+                          open={open}
+                          anchorEl={anchorEl}
+                          onClose={event => setAnchorEl(null)}
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left'
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: `150px`,
+                              display: `grid`,
+                              gridTemplateColumns: `auto auto auto auto auto`
                             }}
                           >
-                            <div
-                              style={{
-                                width: `150px`,
-                                display: `grid`,
-                                gridTemplateColumns: `auto auto auto auto auto`
-                              }}
-                            >
-                              {[
-                                '#61bd6d',
-                                '#3a35411f',
-                                '#54acd2',
-                                '#9365b8',
-                                '#cccccc',
-                                '#3a35411f',
-                                '#00a885',
-                                '#2969b0',
-                                '#28324e',
-                                '#f7da64',
-                                '#fba026',
-                                '#eb6b56',
-                                '#e25041',
-                                '#a38f84',
-                                '#efefef'
-                              ].map((color, index) => (
-                                <div
-                                  key={index}
-                                  id={color + index}
-                                  style={{
-                                    margin: '5px',
-                                    width: '20px',
-                                    height: '20px',
-                                    border: '1px solid',
-                                    backgroundColor: `${color}`,
-                                    cursor: 'pointer'
-                                  }}
-                                  name={'fontColor'}
-                                  value={color}
-                                  onClick={onColorChangeHandler}
-                                />
-                              ))}
-                            </div>
-                          </Popover>
-                        </ToggleButton>
-                      </ToggleButtonGroup>
+                            {[
+                              '#61bd6d',
+                              '#3a35411f',
+                              '#54acd2',
+                              '#9365b8',
+                              '#cccccc',
+                              '#3a35411f',
+                              '#00a885',
+                              '#2969b0',
+                              '#28324e',
+                              '#f7da64',
+                              '#fba026',
+                              '#eb6b56',
+                              '#e25041',
+                              '#a38f84',
+                              '#efefef'
+                            ].map((color, index) => (
+                              <div
+                                key={index}
+                                id={color + index}
+                                style={{
+                                  margin: '5px',
+                                  width: '20px',
+                                  height: '20px',
+                                  border: '1px solid',
+                                  backgroundColor: `${color}`,
+                                  cursor: 'pointer'
+                                }}
+                                name={'fontColor'}
+                                value={color}
+                                onClick={onColorChangeHandler}
+                              />
+                            ))}
+                          </div>
+                        </Popover>
+                      </ToggleButton>
                       <TextField
                         type='number'
                         size='small'
@@ -319,35 +343,43 @@ export default function CustomizationForm({ id }) {
             </CardContent>
           </Card>
         </Grid>
-        <Grid>
-          <Card variant='outlined' style={{ marginBlock: '10px' }}>
-            <CardContent>
-              <List component='nav' aria-label='main mailbox folders'>
-                <ListItemButton selected={label.shape === 'Square'} onClick={event => handleListItemClick(event, 0)}>
-                  <ListItemIcon>
-                    <RectangleOutline />
-                  </ListItemIcon>
-                  <ListItemText primary='Square' />
-                </ListItemButton>
-                <ListItemButton selected={label.shape === 'Ellipse'} onClick={event => handleListItemClick(event, 1)}>
-                  <ListItemIcon>
-                    <svg
-                      style={{ transform: ` rotate(90deg)` }}
-                      fill='none'
-                      height='24'
-                      viewBox='0 0 24 24'
-                      width='24'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <ellipse cx='12' cy='12' rx='8' ry='10' stroke='black' strokeWidth='2' />
-                    </svg>
-                  </ListItemIcon>
-                  <ListItemText primary='Ellipse' />
-                </ListItemButton>
-              </List>
-            </CardContent>
-          </Card>
-        </Grid>
+        {!hiddenSm && (
+          <Grid>
+            <Card variant='outlined' style={{ marginBlock: '10px' }}>
+              <CardContent>
+                <List component='nav' aria-label='main mailbox folders'>
+                  <ListItemButton selected={label.shape === 'Default'} onClick={event => handleListItemClick(event, 0)}>
+                    <ListItemIcon>
+                      <AlphabeticalVariant />
+                    </ListItemIcon>
+                    <ListItemText primary='Default' />
+                  </ListItemButton>
+                  <ListItemButton selected={label.shape === 'Square'} onClick={event => handleListItemClick(event, 1)}>
+                    <ListItemIcon>
+                      <RectangleOutline />
+                    </ListItemIcon>
+                    <ListItemText primary='Square' />
+                  </ListItemButton>
+                  <ListItemButton selected={label.shape === 'Ellipse'} onClick={event => handleListItemClick(event, 2)}>
+                    <ListItemIcon>
+                      <svg
+                        style={{ transform: ` rotate(90deg)` }}
+                        fill='none'
+                        height='24'
+                        viewBox='0 0 24 24'
+                        width='24'
+                        xmlns='http://www.w3.org/2000/svg'
+                      >
+                        <ellipse cx='12' cy='12' rx='8' ry='10' stroke='black' strokeWidth='2' />
+                      </svg>
+                    </ListItemIcon>
+                    <ListItemText primary='Ellipse' />
+                  </ListItemButton>
+                </List>
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
       </Grid>
     </Grid>
   )

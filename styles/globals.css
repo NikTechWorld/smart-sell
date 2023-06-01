@@ -174,3 +174,41 @@ code[class*='language-'] {
 
   font-size: 1.3rem;
 }
+.custom-button-group {
+  height: 40px;
+}
+
+/* .custom-button-group :not(:last-child) {
+  border: none;
+} */
+.custom-button-group button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.custom-button-group div:last-child {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+.custom-button-group :not(:first-child):not(:last-child) {
+  border-inline: 0;
+  border-radius: 0;
+}
+.poster-edit-icon {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  right: 0px;
+  top: -10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.poster-edit-icon svg {
+  background: white;
+  padding: 2px;
+  border-radius: 50%;
+  color: #000;
+  filter: drop-shadow(rgb(57, 71, 137) 0px 0px 2px);
+}
+/* .custom-button-group :not(:first-child) {
+  border: none;
+} */
