@@ -18,8 +18,7 @@ export default function HealthGuidance({ data, setIsFavorite }) {
   }, [data])
   return (
     <Grid container spacing={6}>
-      <Grid item xs={2} sx={{ paddingLeft: 5, paddingRight: 10 }}></Grid>
-      <Gallery
+     <Gallery
         imageList={state.filter(img => img.tag.includes('health'))}
         onClickCallBack={handleClick}
         setIsFavorite={setIsFavorite}

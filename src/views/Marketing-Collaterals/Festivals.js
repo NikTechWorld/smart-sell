@@ -20,7 +20,6 @@ const Festivals = ({ data, setIsFavorite }) => {
   }, [data])
   return (
     <Grid container spacing={6}>
-      <Grid item xs={2} sx={{ paddingLeft: 5, paddingRight: 10 }}></Grid>
       <Gallery
         imageList={state.filter(img => img.tag.includes('festival'))}
         onClickCallBack={handleClick}

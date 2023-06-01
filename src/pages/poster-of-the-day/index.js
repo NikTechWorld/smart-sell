@@ -36,11 +36,11 @@ const CardBasic = props => {
     //   </Grid>
     //   <Grid item xs={2} sx={{ paddingBottom: 4 }}></Grid>
     <Card>
-      <CardContent>
+      {/* <CardContent> */}
         {state?.posters && (
           <Gallery imageList={state?.posters} onClickCallBack={handleClick} setIsFavorite={setIsFavorite} />
         )}
-      </CardContent>
+      {/* </CardContent> */}
     </Card>
     // </Grid>
   )
