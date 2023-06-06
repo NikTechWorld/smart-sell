@@ -4,15 +4,19 @@ import {
   SET_POSTER_OF_THE_DAY,
   SEARCH_POSTER_OF_THE_DAY,
   SET_FAVORITE,
-  UPDATE_FAVORITE_COUNT
+  UPDATE_FAVORITE_COUNT,
+  SAVE_AS_DRAFT,
+  GET_DRAFT_POSTER
 } from '../constant'
 
 export const getPosterOfTheDay = data => {
   return updateReducer(GET_POSTER_OF_THE_DAY, data)
 }
+
 export const setPosterOfTheDay = data => {
   return updateReducer(SET_POSTER_OF_THE_DAY, data)
 }
+
 export const searchPoster = query => {
   return updateReducer(SEARCH_POSTER_OF_THE_DAY, query)
 }
@@ -20,6 +24,11 @@ export const searchPoster = query => {
 export const setFavorite = id => {
   return updateReducer(SET_FAVORITE, id)
 }
+
 export const updateFavoriteCount = count => {
   return updateReducer(UPDATE_FAVORITE_COUNT, count)
+}
+
+export const saveAsDraft = data => {
+  return updateReducer(SAVE_AS_DRAFT, data)
 }

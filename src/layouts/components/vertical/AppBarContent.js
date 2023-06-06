@@ -33,6 +33,8 @@ import { Heart } from 'mdi-material-ui'
 
 // import { searchPoster } from 'src/state/reducers/poster/posterAction'
 import MobileViewProfileMenu from 'src/@core/layouts/components/shared-components/mobileViewProfile'
+import { Save } from '@mui/icons-material'
+import DraftPoster from 'src/@core/layouts/components/shared-components/DraftPoster'
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -134,7 +136,7 @@ const AppBarContent = props => {
     toggleNavVisibility,
 
     state: {
-      posterReducer: { favoriteCount, posters }
+      posterReducer: { favoriteCount, posters, draft }
     }
   } = props
   let navList = navigation()
@@ -151,6 +153,7 @@ const AppBarContent = props => {
     searchPoster(event.target.value)
   }
   const searchPosterHandler = debounce(callSearch, 500)
+
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
@@ -238,7 +241,10 @@ const AppBarContent = props => {
       <Box className='action-center'></Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
         {!settings.hidden ? (
-          <FavoritePoster favoriteCount={favoriteCount} data={posters.filter(x => x.isFavorite)} />
+          <>
+            <FavoritePoster favoriteCount={favoriteCount} data={posters.filter(x => x.isFavorite)} />
+            <DraftPoster data={draft} />
+          </>
         ) : hidden ? null : null}
 
         {settings.hidden ? <UserDropdown /> : hidden ? '' : <UserDropdown />}

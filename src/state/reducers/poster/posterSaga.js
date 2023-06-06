@@ -34,10 +34,16 @@ function* setFavoriteSaga({ payload }) {
     yield put(updateFavoriteCount(count))
   }
 }
+
+function* saveAsDraftSaga({}) {
+  // yield put(saveAsDraft({ payload }))c
+}
+
 function* posterSaga() {
   yield takeEvery(GET_POSTER_OF_THE_DAY, getPosterOfTheDay)
   yield takeEvery(SEARCH_POSTER_OF_THE_DAY, searchPoster)
   yield takeEvery(SET_FAVORITE, setFavoriteSaga)
+  yield takeEvery(SAVE_AS_DRAFT, saveAsDraftSaga)
 }
 
 export default posterSaga

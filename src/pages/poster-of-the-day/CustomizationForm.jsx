@@ -21,6 +21,7 @@ import FormatItalicIcon from 'mdi-material-ui/FormatItalic'
 import { FormatColorText, Download, RectangleOutline, ShareVariant, AlphabeticalVariant } from 'mdi-material-ui'
 import {
   Box,
+  Button,
   FormControl,
   IconButton,
   InputLabel,
@@ -30,16 +31,22 @@ import {
   ListItemText,
   MenuItem,
   Popover,
-  Select
+  Select,
+  Typography
 } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { Edit } from '@mui/icons-material'
+import { Edit, Save } from '@mui/icons-material'
 import Paper from 'src/@core/theme/overrides/paper'
+import CustomInputField from 'src/@core/components/CustomInputField'
+import CustomButton from 'src/@core/components/CustomButton'
+import * as posterActions from './../../state/reducers/poster/posterAction'
+import { connect } from 'react-redux'
+import { bindActionCreators } from '@reduxjs/toolkit'
 
 // ** helper Imports
 // import { pSBC } from './helper'
 
-export default function CustomizationForm({ id }) {
+function CustomizationForm({ id, posterActions: { saveAsDraft } }) {
   // ** Hook
   const theme = useTheme()
   const imageDivRef = useRef(null)
@@ -52,7 +59,7 @@ export default function CustomizationForm({ id }) {
         shape: `Default`,
         position: 'top-left',
         greetings: `Greetings,`,
-        label: `customerName`,
+        label: `customer name`,
         value: '',
         formate: {
           bold: false,
@@ -67,7 +74,7 @@ export default function CustomizationForm({ id }) {
         shape: `Text`,
         position: 'bottom-right',
         greetings: `hidden`,
-        label: `customerName`,
+        label: `agent name`,
         value: 'Agent XYZ',
         formate: {
           bold: false,
@@ -83,6 +90,7 @@ export default function CustomizationForm({ id }) {
   const [color, setColor] = useState('')
 
   const onChangeHandler = event => {
+    if (!event) return
     let labels = state.labels
     let label = labels[activeLabel]
     if (event.target) {
@@ -155,9 +163,9 @@ export default function CustomizationForm({ id }) {
           <CardContent>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mr: 3.5 }}>
-                <IconButton
+                <CustomButton
                   aria-label='download'
-                  onClick={async () => {
+                  actionCallBack={async () => {
                     setShowEditIcon(false)
                     const dataUrl = await htmlToImage.toPng(imageDivRef.current)
                     const link = document.createElement('a')
@@ -166,14 +174,35 @@ export default function CustomizationForm({ id }) {
                     link.click()
                     setShowEditIcon(true)
                   }}
+                  startIcon={<Download />}
                 >
-                  <Download />
-                </IconButton>
+                  <Typography ml={1} display={hiddenSm && 'none'}>
+                    download
+                  </Typography>
+                </CustomButton>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton aria-label='share'>
-                  <ShareVariant />
-                </IconButton>
+                <CustomButton
+                  aria-label='share'
+                  startIcon={<Save />}
+                  actionCallBack={e => {
+                    e.preventDefault()
+
+                    // const { id, formate, greetings, position, shape, value } = label
+                    saveAsDraft({ id, labels: state.labels })
+                  }}
+                >
+                  <Typography ml={1} display={hiddenSm && 'none'}>
+                    save
+                  </Typography>
+                </CustomButton>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <CustomButton aria-label='share' startIcon={<ShareVariant />}>
+                  <Typography ml={1} display={hiddenSm && 'none'}>
+                    share
+                  </Typography>
+                </CustomButton>
               </Box>
             </Box>
             <div className='container' ref={imageDivRef} onDrop={() => {}}>
@@ -331,40 +360,67 @@ export default function CustomizationForm({ id }) {
                   </Grid>
                   <Grid item xs={12}>
                     <Grid container spacing={3}>
+                      {/* {label.greetings !== 'hidden' && (
+                        <Grid item xs={12}>
+                          <FormControl fullWidth>
+                            <InputLabel id='greetings'>Greetings</InputLabel>
+                            {label[`greetings`] !== 'hidden' && (
+                              <Select
+                                labelId='greetings'
+                                id='greetings-id'
+                                value={label[`greetings`]}
+                                label='Greetings'
+                                onChange={onChangeHandler}
+                                size='small'
+                                name='greetings'
+                                fullWidth
+                              >
+                                <MenuItem value='Dear,'>Dear, </MenuItem>
+                                <MenuItem value='Greetings,'>Greetings, </MenuItem>
+                                <MenuItem value='Hi,'>Hi, </MenuItem>
+                                <MenuItem value='Hello,'>Hello, </MenuItem>
+                              </Select>
+                            )}
+                          </FormControl>
+                        </Grid>
+                      )} */}
                       <Grid item xs={12}>
-                        <FormControl fullWidth>
-                          <InputLabel id='greetings'>Greetings</InputLabel>
-                          {label[`greetings`] !== 'hidden' && (
-                            <Select
-                              labelId='greetings'
-                              id='greetings-id'
-                              value={label[`greetings`]}
-                              label='Greetings'
-                              onChange={onChangeHandler}
-                              size='small'
-                              name='greetings'
-                              fullWidth
+                        <CustomInputField
+                          label={`${label.label}`}
+                          name='customerName'
+                          size='small'
+                          fullWidth
+                          startAdornment={
+                            <select
+                              name='salutation'
+                              style={{
+                                marginRight: 10,
+                                background: '#fff',
+                                border: 'none',
+                                outline: 'none'
+                              }}
                             >
-                              <MenuItem value='Dear,'>Dear, </MenuItem>
-                              <MenuItem value='Greetings,'>Greetings, </MenuItem>
-                              <MenuItem value='Hi,'>Hi, </MenuItem>
-                              <MenuItem value='Hello,'>Hello, </MenuItem>
-                            </Select>
-                          )}
-                        </FormControl>
+                              <option value='Dear,'>Dear, </option>
+                              <option value='Greetings,'>Greetings, </option>
+                              <option value='Hi,'>Hi, </option>
+                              <option value='Hello,'>Hello, </option>
+                            </select>
+                          }
+                          onChange={onChangeHandler}
+                        />
                       </Grid>
-                      <Grid item xs={12}>
+                      {/* <Grid item xs={12}>
                         <TextField
                           fullWidth
-                          label='Enter Customer Name'
-                          placeholder='Customer Name'
+                          label={`Enter ${label.label} `}
+                          placeholder={`${label.label}`}
                           name='customerName'
                           value={label.value}
                           size='small'
                           onChange={onChangeHandler}
                           multiline
                         />
-                      </Grid>
+                      </Grid> */}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -413,3 +469,13 @@ export default function CustomizationForm({ id }) {
     </Grid>
   )
 }
+function mapStateToProps(state) {
+  return { state }
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    posterActions: bindActionCreators(posterActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomizationForm)

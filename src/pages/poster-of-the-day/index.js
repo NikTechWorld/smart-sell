@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import Gallery from 'src/layouts/gallary/Gallery'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import imgList from './Images.json'
 
 //
 import { connect } from 'react-redux'
