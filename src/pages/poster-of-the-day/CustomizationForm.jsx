@@ -44,6 +44,7 @@ export default function CustomizationForm({ id }) {
   const theme = useTheme()
   const imageDivRef = useRef(null)
   const [showEditIcon, setShowEditIcon] = useState(true)
+
   const [state, setState] = useState({
     labels: [
       {
@@ -112,6 +113,7 @@ export default function CustomizationForm({ id }) {
     labels[activeLabel] = label
     setState({ ...state, labels })
   }
+
   const handleListItemClick = event => {
     let labels = state.labels
     let label = labels[activeLabel]
@@ -119,6 +121,7 @@ export default function CustomizationForm({ id }) {
     labels[activeLabel] = label
     setState({ ...state, labels })
   }
+
   const onColorChangeHandler = event => {
     setColor(event.target.getAttribute('value'))
     setAnchorEl(null)
@@ -144,6 +147,7 @@ export default function CustomizationForm({ id }) {
   }))
   const label = state.labels[activeLabel]
   let hiddenSm = useMediaQuery(theme.breakpoints.down('sm'))
+
   return (
     <Grid container spacing={2} direction={hiddenSm ? 'column-reverse' : ''} style={{ height: 'inherit' }}>
       <Grid item xs={8} textAlign={'center'} alignItems={'center'} style={{ height: 'inherit' }}>

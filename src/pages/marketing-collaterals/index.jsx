@@ -26,6 +26,7 @@ import { BorderRadius } from 'mdi-material-ui'
 import { MenuItem, Select } from '@mui/material'
 
 import * as posterActions from 'src/state/reducers/poster/posterAction'
+import SearchAndFilterComponent from '../pageComponents/search&filter'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { connect } from 'react-redux'
 
@@ -33,6 +34,7 @@ const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     minWidth: '10%',
     fontSize: '10px'
+
     // display: "none"
   },
   [theme.breakpoints.down('sm')]: {
@@ -80,6 +82,7 @@ const MarketingCollaterals = props => {
   const [state, setState] = useState([])
   const classes = useStyles()
   const { getPosterOfTheDay, setFavorite } = props.posterActions
+
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
@@ -91,57 +94,61 @@ const MarketingCollaterals = props => {
   useEffect(() => {
     if (!state.length) getPosterOfTheDay()
   }, [])
+
   const setIsFavorite = id => {
     setFavorite(id)
   }
+
   return (
-    <Card className={classes.dropcard}>
-      <Select
-        className='collateralOptions'
-        defaultValue={'healthGuidance'}
-        onChange={e => {
-          setValue(e.target.value)
-        }}
-        fullWidth
-      >
-        <MenuItem value='festival'>Festival</MenuItem>
-        <MenuItem value='healthGuidance'>Health Guidance</MenuItem>
-        <MenuItem value='insuranceConcept'>Insurance Concepts</MenuItem>
-      </Select>
-      <TabContext value={value}>
-        <TabList
-          //  className={classess.MuiTabList-vertical}
-          onChange={handleChange}
-          sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}`, backgroundColor: '#E3F4F4' }}
+    <>
+      <SearchAndFilterComponent />
+      <Card className={classes.dropcard}>
+        <Select
+          className='collateralOptions'
+          defaultValue={'healthGuidance'}
+          onChange={e => {
+            setValue(e.target.value)
+          }}
+          fullWidth
         >
-          <Tab
-            value='festival'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <AutoAwesomeOutlinedIcon />
-                <TabName>Festivals</TabName>
-              </Box>
-            }
-          />
-          <Tab
-            value='insuranceConcept'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <HealthAndSafetyOutlinedIcon />
-                <TabName>Insurance Concepts</TabName>
-              </Box>
-            }
-          />
-          <Tab
-            value='healthGuidance'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <MedicalInformationOutlinedIcon />
-                <TabName>Health Guidance</TabName>
-              </Box>
-            }
-          />
-          {/* <div>
+          <MenuItem value='festival'>Festival</MenuItem>
+          <MenuItem value='healthGuidance'>Health Guidance</MenuItem>
+          <MenuItem value='insuranceConcept'>Insurance Concepts</MenuItem>
+        </Select>
+        <TabContext value={value}>
+          <TabList
+            //  className={classess.MuiTabList-vertical}
+            onChange={handleChange}
+            sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}`, backgroundColor: '#E3F4F4' }}
+          >
+            <Tab
+              value='festival'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <AutoAwesomeOutlinedIcon />
+                  <TabName>Festivals</TabName>
+                </Box>
+              }
+            />
+            <Tab
+              value='insuranceConcept'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <HealthAndSafetyOutlinedIcon />
+                  <TabName>Insurance Concepts</TabName>
+                </Box>
+              }
+            />
+            <Tab
+              value='healthGuidance'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <MedicalInformationOutlinedIcon />
+                  <TabName>Health Guidance</TabName>
+                </Box>
+              }
+            />
+            {/* <div>
           <select >
             <option value='festival'>Festival</option>
             <option value='insuranceConcept'>Insurance Concepts
@@ -150,27 +157,30 @@ const MarketingCollaterals = props => {
               Health Guidance</option>
           </select>
           </div> */}
-        </TabList>
+          </TabList>
 
-        {/* <div className=''> */}
-        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: 'max-content' }} value='festival'>
-          <Festivals data={state} setIsFavorite={setIsFavorite} />
-        </TabPanel>
-        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: 'max-content' }} value='insuranceConcept'>
-          <InsuranceConcepts data={state} setIsFavorite={setIsFavorite} />
-        </TabPanel>
-        <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: 'max-content' }} value='healthGuidance'>
-          <HealthGuidance data={state} setIsFavorite={setIsFavorite} />
-        </TabPanel>
-        {/* </div> */}
-      </TabContext>
-    </Card>
+          {/* <div className=''> */}
+          <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: 'max-content' }} value='festival'>
+            <Festivals data={state} setIsFavorite={setIsFavorite} />
+          </TabPanel>
+          <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: 'max-content' }} value='insuranceConcept'>
+            <InsuranceConcepts data={state} setIsFavorite={setIsFavorite} />
+          </TabPanel>
+          <TabPanel sx={{ paddingLeft: 8, overflow: 'auto', height: 'max-content' }} value='healthGuidance'>
+            <HealthGuidance data={state} setIsFavorite={setIsFavorite} />
+          </TabPanel>
+          {/* </div> */}
+        </TabContext>
+      </Card>
+    </>
   )
 }
 const mapStateToProps = state => state
+
 const mapDispatchToProps = dispatch => {
   return {
     posterActions: bindActionCreators(posterActions, dispatch)
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(MarketingCollaterals)

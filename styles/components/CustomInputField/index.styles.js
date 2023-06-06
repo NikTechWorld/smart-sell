@@ -13,7 +13,7 @@ const customInputStyles = makeStyles(theme => ({
     marginTop: 20,
     borderRadius: 7,
     '& .MuiInputBase-root': {
-      background: '#fff'
+      background: '#fff !important'
     },
     '& .MuiFormLabel-root': {
       color: '#5b6a7e'

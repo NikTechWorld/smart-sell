@@ -4,90 +4,103 @@
     "imgURL": "/images/posters/1.jpg",
     "title": "rakshabandhan",
     "isFavorite": false,
-    "tag": "festival,rakhi"
+    "tag": "festival,rakhi",
+    "publishDate": "2022-08-12"
   },
   {
     "id": "2",
     "imgURL": "/images/posters/2.jpg",
     "title": "merrychristmas",
     "isFavorite": true,
-    "tag": "festival"
+    "tag": "festival",
+    "publishDate": "2016-12-25"
   },
   {
     "id": "3",
     "imgURL": "/images/posters/3.jpg",
     "title": "diwali",
     "isFavorite": false,
-    "tag": "festival"
+    "tag": "festival",
+    "publishDate": "2023-11-14"
   },
   {
     "id": "4",
     "imgURL": "/images/posters/4.jpg",
     "title": "birthday",
     "isFavorite": false,
-    "tag": "festival"
+    "tag": "festival",
+    "publishDate": "1998-09-09"
   },
   {
     "id": "5",
     "imgURL": "/images/posters/5.jpg",
     "title": "hospitalnetwork",
     "isFavorite": false,
-    "tag": "insurance"
+    "tag": "insurance",
+    "publishDate": "2021-06-11"
   },
   {
     "id": "6",
     "imgURL": "/images/posters/6.jpg",
     "title": "taxplanning",
     "isFavorite": false,
-    "tag": "insurance"
+    "tag": "insurance",
+    "publishDate": "2021-09-17"
   },
   {
     "id": "7",
     "imgURL": "/images/posters/7.jpg",
     "title": "cancercare",
     "isFavorite": false,
-    "tag": "health"
+    "tag": "health",
+    "publishDate": "2023-04-23"
   },
   {
     "id": "8",
     "imgURL": "/images/posters/8.jpg",
     "title": "care",
     "isFavorite": false,
-    "tag": "health"
+    "tag": "health",
+    "publishDate": "2023-05-11"
   },
   {
     "id": "9",
     "imgURL": "/images/posters/9.jpg",
     "title": "coronavirus",
     "isFavorite": false,
-    "tag": "health"
+    "tag": "health",
+    "publishDate": "2019-02-11"
   },
   {
     "id": "10",
     "imgURL": "/images/posters/10.jpg",
     "title": "coronavirus",
     "isFavorite": false,
-    "tag": "health"
+    "tag": "health",
+    "publishDate": "2019-03-11"
   },
   {
     "id": "11",
     "imgURL": "/images/posters/11.jpg",
     "title": "coronavirus",
     "isFavorite": false,
-    "tag": "health,hindi"
+    "tag": "health,hindi",
+    "publishDate": "2022-02-11"
   },
   {
     "id": "12",
     "imgURL": "/images/posters/12.jpg",
     "title": "coronavirus",
     "isFavorite": false,
-    "tag": "health,tamil"
+    "tag": "health,tamil",
+    "publishDate": "2022-02-11"
   },
   {
     "id": "13",
     "imgURL": "/images/posters/13.jpg",
     "title": "coronavirus",
     "isFavorite": false,
-    "tag": "health,telugu"
+    "tag": "health,telugu",
+    "publishDate": "2022-02-11"
   }
 ]

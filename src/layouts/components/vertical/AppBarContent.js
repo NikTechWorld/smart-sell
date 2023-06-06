@@ -1,3 +1,4 @@
+/* eslint-disable newline-before-return */
 /* eslint-disable react/jsx-key */
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -29,6 +30,7 @@ import * as posterActions from 'src/state/reducers/poster/posterAction'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { connect } from 'react-redux'
 import { Heart } from 'mdi-material-ui'
+
 // import { searchPoster } from 'src/state/reducers/poster/posterAction'
 import MobileViewProfileMenu from 'src/@core/layouts/components/shared-components/mobileViewProfile'
 
@@ -137,12 +139,14 @@ const AppBarContent = props => {
   } = props
   let navList = navigation()
   const classes = useStyles()
+  const starLogoURL = `https://d28c6jni2fmamz.cloudfront.net/star_health_logo_big_77cff254bd.svg`
 
   // ** Hook
   const hiddenSm = useMediaQuery(theme => theme.breakpoints.down('sm'))
   const routes = useRouter()
   const [isOpen, setOpen] = React.useState(false)
   const { searchPoster, getPosterOfTheDay } = props.posterActions
+
   const callSearch = event => {
     searchPoster(event.target.value)
   }
@@ -153,7 +157,7 @@ const AppBarContent = props => {
         {settings.hidden ? (
           <>
             <img
-              src='https://vo-uat.starhealth.in/static/star-health-logo.png'
+              src={starLogoURL}
               width={150}
               onClick={() => {
                 routes.push('/')
@@ -201,7 +205,7 @@ const AppBarContent = props => {
         {!settings.hidden && (
           <NavListWrapper>
             <img
-              src='https://vo-uat.starhealth.in/static/star-health-logo.png'
+              src={starLogoURL}
               width={150}
               onClick={() => {
                 routes.push('/')
@@ -234,20 +238,6 @@ const AppBarContent = props => {
       <Box className='action-center'></Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
         {!settings.hidden ? (
-          <CustomInputField
-            size='small'
-            style={{
-              marginTop: 0
-            }}
-            onChange={searchPosterHandler}
-            startAdornment={
-              <InputAdornment position='start'>
-                <Magnify fontSize='small' />
-              </InputAdornment>
-            }
-          />
-        ) : hidden ? null : null}
-        {!settings.hidden ? (
           <FavoritePoster favoriteCount={favoriteCount} data={posters.filter(x => x.isFavorite)} />
         ) : hidden ? null : null}
 
@@ -264,4 +254,5 @@ function mapDispatchToProps(dispatch) {
     posterActions: bindActionCreators(posterActions, dispatch)
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(AppBarContent)
