@@ -1,5 +1,5 @@
 // ** React Imports
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as htmlToImage from 'html-to-image'
 
 import Draggable from 'react-draggable'
@@ -18,25 +18,17 @@ import { styled, useTheme } from '@mui/material/styles'
 // ** Icons Imports
 import FormatBoldIcon from 'mdi-material-ui/FormatBold'
 import FormatItalicIcon from 'mdi-material-ui/FormatItalic'
-import { FormatColorText, Download, RectangleOutline, ShareVariant, AlphabeticalVariant } from 'mdi-material-ui'
 import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputLabel,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  Popover,
-  Select,
-  Typography
-} from '@mui/material'
+  FormatColorText,
+  Download,
+  RectangleOutline,
+  ShareVariant,
+  AlphabeticalVariant,
+  ContentSaveMinus
+} from 'mdi-material-ui'
+import { Box, List, ListItemButton, ListItemIcon, ListItemText, Popover, Typography } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { Edit, Save } from '@mui/icons-material'
-import Paper from 'src/@core/theme/overrides/paper'
 import CustomInputField from 'src/@core/components/CustomInputField'
 import CustomButton from 'src/@core/components/CustomButton'
 import * as posterActions from './../../state/reducers/poster/posterAction'
@@ -46,7 +38,13 @@ import { bindActionCreators } from '@reduxjs/toolkit'
 // ** helper Imports
 // import { pSBC } from './helper'
 
-function CustomizationForm({ id, posterActions: { saveAsDraft } }) {
+function CustomizationForm({
+  id,
+  posterActions: { saveAsDraft },
+  state: {
+    posterReducer: { draft }
+  }
+}) {
   // ** Hook
   const theme = useTheme()
   const imageDivRef = useRef(null)
@@ -155,6 +153,18 @@ function CustomizationForm({ id, posterActions: { saveAsDraft } }) {
   }))
   const label = state.labels[activeLabel]
   let hiddenSm = useMediaQuery(theme.breakpoints.down('sm'))
+  const [isSaved, setSaved] = useState(false)
+  useEffect(() => {
+    if (draft.length) {
+      const index = draft.findIndex(x => x.id === id)
+      if (index >= 0) {
+        const savedData = draft[index]
+        if (savedData.labels) {
+          setState({ labels: savedData.labels })
+        }
+      }
+    }
+  }, [, draft, id])
 
   return (
     <Grid container spacing={2} direction={hiddenSm ? 'column-reverse' : ''} style={{ height: 'inherit' }}>
@@ -187,8 +197,6 @@ function CustomizationForm({ id, posterActions: { saveAsDraft } }) {
                   startIcon={<Save />}
                   actionCallBack={e => {
                     e.preventDefault()
-
-                    // const { id, formate, greetings, position, shape, value } = label
                     saveAsDraft({ id, labels: state.labels })
                   }}
                 >

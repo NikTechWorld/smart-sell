@@ -32,7 +32,7 @@ export default function Gallery({ imageList, onClickCallBack, setIsFavorite }) {
             sx={{
               background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' + 'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
             }}
-            // title={item.title}
+            title={item.publishDate}
             position='top'
             actionIcon={
               <IconButton
@@ -46,7 +46,6 @@ export default function Gallery({ imageList, onClickCallBack, setIsFavorite }) {
                 {item.isFavorite ? <Heart color={'error'} /> : <HeartOutline />}
               </IconButton>
             }
-            title={`2020-05-12`}
             actionPosition='left'
           />
         </ImageListItem>

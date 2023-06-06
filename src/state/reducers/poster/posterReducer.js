@@ -12,7 +12,10 @@ const posterReducer = (state = initialState, action) => {
       return { ...state, favoriteCount: action.payload }
     case SAVE_AS_DRAFT:
       const { draft } = state
-      draft.push(action.payload)
+      const index = draft.findIndex(x => x.id === action.payload.id)
+      if (index >= 0) {
+        draft[index] = action.payload
+      } else draft.push(action.payload)
 
       return { ...state, draft: draft }
     default:

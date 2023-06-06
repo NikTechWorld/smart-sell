@@ -1,7 +1,6 @@
 import { takeEvery, put, call, select } from 'redux-saga/effects'
-import { GET_POSTER_OF_THE_DAY, SEARCH_POSTER_OF_THE_DAY, SET_FAVORITE } from '../constant'
-import { setPosterOfTheDay, searchPoster as searchInPosterOfTheDay, updateFavoriteCount } from './posterAction'
-import { Toaster } from 'mdi-material-ui'
+import { GET_POSTER_OF_THE_DAY, SEARCH_POSTER_OF_THE_DAY, SET_FAVORITE, SAVE_AS_DRAFT } from '../constant'
+import { setPosterOfTheDay, updateFavoriteCount } from './posterAction'
 
 const getPosters = state => state.posterReducer
 function* getPosterOfTheDay() {
