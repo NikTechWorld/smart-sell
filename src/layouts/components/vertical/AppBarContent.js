@@ -153,7 +153,7 @@ const AppBarContent = props => {
     searchPoster(event.target.value)
   }
   const searchPosterHandler = debounce(callSearch, 500)
-
+  const draftIds = draft.map(obj => obj.id)
   return (
     <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
@@ -243,7 +243,7 @@ const AppBarContent = props => {
         {!settings.hidden ? (
           <>
             <FavoritePoster favoriteCount={favoriteCount} data={posters.filter(x => x.isFavorite)} />
-            <DraftPoster data={draft} />
+            <DraftPoster data={posters.filter(x => draftIds.includes(x.id))} />
           </>
         ) : hidden ? null : null}
 

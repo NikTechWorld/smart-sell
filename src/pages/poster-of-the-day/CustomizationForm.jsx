@@ -161,6 +161,7 @@ function CustomizationForm({
         const savedData = draft[index]
         if (savedData.labels) {
           setState({ labels: savedData.labels })
+          setColor(savedData.color)
         }
       }
     }
@@ -197,7 +198,7 @@ function CustomizationForm({
                   startIcon={<Save />}
                   actionCallBack={e => {
                     e.preventDefault()
-                    saveAsDraft({ id, labels: state.labels })
+                    saveAsDraft({ id, labels: state.labels, color })
                   }}
                 >
                   <Typography ml={1} display={hiddenSm && 'none'}>
